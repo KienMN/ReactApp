@@ -3,68 +3,64 @@ import AssignedEmployeeSuggest from './AssignedEmployeeSuggest.jsx';
 import RelatersSuggest from './RelatersSuggest.jsx';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 
-// import './css/day-picker.css';
-
 class RequestDescription extends React.Component {
-	
 	constructor(props) {
 		super(props);
 		this.state = {
 			subject: "Sửa bàn phím",
 			data: {
 				"created_by": "Phạm Tuấn Anh",
-				"status": "1",
-				"priority": "2",
+				"status": 1,
+				"priority": 2,
 				"created_at": "2017/12/20 14:00:00",
 				"deadline": "2017/12/20 16:00:00",
-				"dept_id": "2",
+				"dept_id": 2,
 				"assigned_to": "NA",
 				"relaters": ["KienMN", "MNKien","Lala"]
 			},
 			tmpData: {
 				"created_by": "Phạm Tuấn Anh",
-				"status": "1",
-				"priority": "2",
+				"status": 1,
+				"priority": 2,
 				"created_at": "2017/12/20 14:00:00",
 				"deadline": "2017/12/20 16:00:00",
-				"dept_id": "2",
+				"dept_id": 2,
 				"assigned_to": "NA",
 				"relaters": ["KienMN", "MNKien", "Lala"]
 			},
 			availableStatus: [0, 0, 0, 0, 0, 1],
-			setOfStatus: ["New", "In progress", "Resolved", "Feedback", "Closed","Cancelled"]
 		}
+		// Handle change dept
 		this.handleDeptChange = this.handleDeptChange.bind(this);
 		this.handleSubmitDeptChange = this.handleSubmitDeptChange.bind(this);
 		this.resetDept = this.resetDept.bind(this);
-		
+		// Handle change priority
 		this.handlePriorityChange = this.handlePriorityChange.bind(this);
 		this.handleReasonChange = this.handleReasonChange.bind(this);
 		this.handleSubmitPriorityChange = this.handleSubmitPriorityChange.bind(this);
 		this.resetPriority = this.resetPriority.bind(this);
-
+		// Handle change day
 		this.handleDayChange = this.handleDayChange.bind(this);
-
+		// Handle change relaters
+		this.handleRelatersRemove = this.handleRelatersRemove.bind(this);
+		this.handleRelatersAdd = this.handleRelatersAdd.bind(this);
 		this.handleSubmitRelatersChange = this.handleSubmitRelatersChange.bind(this);
-
-		// this.handleAssignedEmployeeChange = this.handleAssignedEmployeeChange.bind(this);
+		this.resetRelaters = this.resetRelaters.bind(this);
+		// Hanlde change assigned employee
 		this.handleSubmitAssignedEmployeeChange = this.handleSubmitAssignedEmployeeChange.bind(this);
-
+		// Handle change status
 		this.handleStatusChange = this.handleStatusChange.bind(this);
 		this.handleSubmitStatusChange = this.handleSubmitStatusChange.bind(this);
 		this.resetStatus = this.resetStatus.bind(this);
-
 	}
-
 	// Handle change dept
 	handleDeptChange(event) {
-    	let new_dept_id = event.target.value;
+    	let new_dept_id = Number.parseInt(event.target.value);
     	this.setState((prevState, props) => {
     		let {dept_id, ...others} = prevState.tmpData;
     		return {tmpData: {dept_id: new_dept_id, ...others}}
     	});
   	}
-
   	handleSubmitDeptChange(event) {
   		let new_dept_id = this.state.tmpData.dept_id;
   		this.setState((prevState, props) => {
@@ -72,7 +68,6 @@ class RequestDescription extends React.Component {
   			return {data: {dept_id: new_dept_id, ...others}};
   		});
   	}
-
   	resetDept(event) {
 		let old_dept_id = this.state.data.dept_id;
 		this.setState((prevState, props) => {
@@ -80,16 +75,14 @@ class RequestDescription extends React.Component {
 			return {tmpData: {dept_id: old_dept_id, ...others}};
 		});
 	}
-
 	// Handle change priority
 	handlePriorityChange(event) {
-		let newPriority = event.target.value;
+		let newPriority = Number.parseInt(event.target.value);
     	this.setState((prevState, props) => {
     		let {priority, ...others} = prevState.tmpData;
     		return {tmpData: {priority: newPriority, ...others}}
     	});
 	}
-
 	handleReasonChange(event) {
 		if (event.target.value.length != 0) {
 			document.getElementById("changePriorityButton").className = "btn btn-primary";
@@ -97,7 +90,6 @@ class RequestDescription extends React.Component {
 			document.getElementById("changePriorityButton").className = "btn btn-primary disabled";
 		}
 	}
-
 	handleSubmitPriorityChange(event) {
 		let newPriority = this.state.tmpData.priority;
 		alert(document.getElementById("reason").value);
@@ -106,7 +98,6 @@ class RequestDescription extends React.Component {
     		return {data: {priority: newPriority, ...others}};
     	});
 	}
-
 	resetPriority(event) {
 		let oldPriority = this.state.data.priority;
     	this.setState((prevState, props) => {
@@ -114,27 +105,45 @@ class RequestDescription extends React.Component {
     		return {tmpData: {priority: oldPriority, ...others}}
     	});
 	}
-
 	// Handle change deadline
 	handleDayChange(date) {
 		console.log(date);
 	}
-
 	// Handle change relaters
-	handleRelatersChange() {
-
+	handleRelatersRemove(event) {
+		let index = event.target.id;
+        this.state.tmpData.relaters.splice(index, 1);
+        let newRelaters = this.state.tmpData.relaters;
+        this.setState((prevState, props) => {
+              let {relaters, ...others} = prevState.tmpData;
+              return {tmpData: {relaters: newRelaters, ...others}};
+        });
 	}
-
+	handleRelatersAdd(username) {
+		// Check if username is existed
+		if (this.state.tmpData.relaters.filter(relater => (relater === username)).length == 0) {
+			this.state.tmpData.relaters.push(username);
+	        let newRelaters = this.state.tmpData.relaters;
+	        this.setState((prevState, props) => {
+	              let {relaters, ...others} = prevState.tmpData;
+	              return {tmpData: {relaters: newRelaters, ...others}};
+	        });	
+		}
+	}
 	handleSubmitRelatersChange() {
-		
+		let newRelaters = this.state.tmpData.relaters;
+    	this.setState((prevState, props) => {
+    		let {relaters, ...others} = prevState.data;
+    		return {data: {relaters: newRelaters, ...others}};
+    	});
 	}
-
-
-	// Handle change assigned employee
-	// handleAssignedEmployeeChange(event) {
-	// 	alert();
-	// }
-
+	resetRelaters() {
+		let oldRelaters = this.state.data.relaters.splice();
+    	this.setState((prevState, props) => {
+    		let {relaters, ...others} = prevState.tmpData;
+    		return {tmpData: {relaters: oldRelaters, ...others}};
+    	});
+	}
 	// Handle change assigned employee
 	handleSubmitAssignedEmployeeChange(event) {
 		let newAssignedEmployee = document.getElementById("newAssignedEmployee").value;
@@ -147,16 +156,14 @@ class RequestDescription extends React.Component {
 			return {tmpData: {assigned_to: newAssignedEmployee, ...others}};
 		});
 	}
-
 	// Handle change status
 	handleStatusChange(event) {
-    	let newStatus = event.target.value;
+    	let newStatus = Number.parseInt(event.target.value);
     	this.setState((prevState, props) => {
     		let {status, ...others} = prevState.tmpData;
     		return {tmpData: {status: newStatus, ...others}}
     	});
   	}
-
   	handleSubmitStatusChange(event) {
   		let newStatus = this.state.tmpData.status;
   		this.setState((prevState, props) => {
@@ -164,7 +171,6 @@ class RequestDescription extends React.Component {
   			return {data: {status: newStatus, ...others}};
   		});
   	}
-
   	resetStatus(event) {
 		let oldStatus = this.state.data.status;
 		this.setState((prevState, props) => {
@@ -174,45 +180,21 @@ class RequestDescription extends React.Component {
 	}
 
 	render() {
-		let deptName = "Đà Nẵng - IT";
-		if (this.state.data.dept_id == "1") {
-			deptName = "Hà Nội - IT";
-		}
-
-		let priority = this.state.data.priority;
-		if (priority == "1") {
-			priority = "Thấp";
-		} else if (priority == "2") {
-			priority = "Bình thường";
-		} else if (priority == "3") {
-			priority = "Cao";
-		} else {
-			priority = "Khẩn cấp"
-		}
-
-		let status = this.state.data.status;
-		if (status == "1") {
-			status = "New";
-		} else if (status == "2") {
-			status = "In progress";
-		} else if (status == "3") {
-			status = "Resolved";
-		} else if (status == "4") {
-			status = "Feedback";
-		} else if (status == "5") {
-			status = "Closed";
-		} else {
-			status = "Cancelled";
-		}
+		const deptNames = ["", "Hà Nội - IT", "Đà Nẵng - IT"];
+		const priority = ["", "Thấp", "Bình thường", "Cao", "Khẩn cấp"];
+		const status = ["", "New", "In progress", "Resolved", "Feedback", "Closed", "Cancelled"];
 		
 		return (
 			<div id="page-wrapper">
+				{/* Request Info */}
 				<div className="row">
 					<div className="col-lg-12">
 						<div className="panel panel-default">
+							{/* Request title */}
 							<div className="panel-heading">
 								{this.state.subject}
 							</div>
+							{/* Edit buttons */}
 							<div className="break-line">
 								<p className="text-center">
 									<button type="button" className="btn btn-default" data-toggle="modal" data-target="#deptChangeModal"><i className="fa fa-users" aria-hidden="true"></i> Thay đổi bộ phận IT</button>
@@ -223,6 +205,7 @@ class RequestDescription extends React.Component {
 									<button type="button" className="btn btn-default" data-toggle="modal" data-target="#statusChangeModal"><i className="fa fa-exchange" aria-hidden="true"></i> Thay đổi trạng thái <b className="caret"></b></button>
 								</p>
 							</div>
+							{/* Request Info */}
 							<div className="panel-body">
 								<div className="dataTable_wrapper">
 									<table className="table table-borderless" id="testTable">
@@ -241,13 +224,13 @@ class RequestDescription extends React.Component {
 												<td><span><strong>Người thực hiện:</strong></span></td>
 												<td>{this.state.data.assigned_to}</td>
 												<td><span><strong>Bộ phận IT:</strong></span></td>
-												<td>{deptName}</td>
+												<td>{deptNames[this.state.data.dept_id]}</td>
 											</tr>
 											<tr>
 												<td><span><strong>Mức độ ưu tiên:</strong></span></td>
-												<td>{priority}</td>
+												<td>{priority[this.state.data.priority]}</td>
 												<td><span><strong>Trạng thái:</strong></span></td>
-												<td>{status}</td>
+												<td>{status[this.state.data.status]}</td>
 												<td><span><strong>Người liên quan:</strong></span></td>
 												<td>
 													{this.state.data.relaters.map((person, i) => person + " ")}
@@ -260,7 +243,8 @@ class RequestDescription extends React.Component {
 						</div>
 					</div>
 				</div>
-				{/*<!-- Dept Change Modal -->*/}
+				{/* Pop-up menu */}
+				{/* Dept Change Modal */}
 				<div className="modal fade" id="deptChangeModal" role="dialog">
 					<div className="modal-dialog">
 						{/*<!-- Modal content-->*/}
@@ -284,7 +268,7 @@ class RequestDescription extends React.Component {
 					</div>
 				</div>
 
-				{/*<!-- Priority Change Modal -->*/}
+				{/* Priority Change Modal */}
 				<div className="modal fade" id="priorityChangeModal" role="dialog">
 					<div className="modal-dialog">
 						{/*<!-- Modal content-->*/}
@@ -313,7 +297,7 @@ class RequestDescription extends React.Component {
 					</div>
 				</div>
 
-				{/*<!-- Deadline Change Modal -->*/}
+				{/* Deadline Change Modal */}
 				<div className="modal fade" id="deadlineChangeModal" role="dialog">
 					<div className="modal-dialog">
 						{/*<!-- Modal content-->*/}
@@ -334,7 +318,7 @@ class RequestDescription extends React.Component {
 					</div>
 				</div>
 
-				{/*<!-- Relaters Change Modal -->*/}
+				{/* Relaters Change Modal */}
 				<div className="modal fade" id="relatersChangeModal" role="dialog">
 					<div className="modal-dialog">
 						{/*<!-- Modal content-->*/}
@@ -345,7 +329,7 @@ class RequestDescription extends React.Component {
 							</div>
 							<div className="modal-body">
 								<label>Danh sách người liên quan</label>
-								<RelatersSuggest relaters = {this.state.tmpData.relaters} callbackFrom/>
+								<RelatersSuggest relaters = {this.state.tmpData.relaters} removeRelater={this.handleRelatersRemove} addRelater={this.handleRelatersAdd}/>
 							</div>
 							<div className="modal-footer">
 								<button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.handleSubmitRelatersChange}>Xác nhận</button>
@@ -354,8 +338,7 @@ class RequestDescription extends React.Component {
 						</div>
 					</div>
 				</div>
-
-				{/*<!-- Assigned Employee Change Modal -->*/}
+				{/* Assigned Employee Change Modal */}
 				<div className="modal fade" id="assignedEmployeeChangeModal" role="dialog">
 					<div className="modal-dialog">
 						{/*<!-- Modal content-->*/}
@@ -376,7 +359,7 @@ class RequestDescription extends React.Component {
 					</div>
 				</div>
 				
-				{/*<!-- Status Change Modal -->*/}
+				{/* Status Change Modal */}
 				<div className="modal fade" id="statusChangeModal" role="dialog">
 					<div className="modal-dialog">
 						{/*<!-- Modal content-->*/}
@@ -388,13 +371,7 @@ class RequestDescription extends React.Component {
 							<div className="modal-body">
 								<label>Lựa chọn trạng thái</label>
 								<select className="form-control" onChange={this.handleStatusChange} value={this.state.tmpData.status}>
-									{/*<option value="1">New</option>
-									<option value="2">In progress</option>
-									<option value="3">Resolved</option>
-									<option value="4">Feedback</option>
-									<option value="5">Closed</option>
-									<option value="6">Cancelled</option>*/}
-									{this.state.availableStatus.map((val, i) => (val == 0) ? <option value={i + 1} key={i} disabled>{this.state.setOfStatus[i]}</option> : <option value={i + 1} key={i}>{this.state.setOfStatus[i]}</option>)};
+									{this.state.availableStatus.map((val, i) => (val == 0) ? <option value={i + 1} key={i} disabled>{status[i + 1]}</option> : <option value={i + 1} key={i}>{status[i + 1]}</option>)};
 								</select>
 							</div>
 							<div className="modal-footer">
@@ -403,8 +380,7 @@ class RequestDescription extends React.Component {
 							</div>
 						</div>
 					</div>
-				</div>
-
+				</div>{/* End of pop up */}
 			</div>
 		);
 	}

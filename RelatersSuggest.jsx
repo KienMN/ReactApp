@@ -1,7 +1,7 @@
 import React from 'react';
 import Autosuggest from 'react-autosuggest';
 
-// Imagine you have a list of languages that you'd like to autosuggest.
+// List of languages that you'd like to autosuggest.
 const languages = [
 {
     name: 'C',
@@ -71,7 +71,6 @@ class RelatersSuggest extends React.Component {
     }
 
     onChange(event, { newValue }) {
-        // document.getElementById(this.props.buttonId).className += " disabled";
         this.setState({value: newValue});
     };
 
@@ -87,9 +86,9 @@ class RelatersSuggest extends React.Component {
     };
 
     onSuggestionSelected(event, { suggestionValue }) {
-        // document.getElementById(this.props.buttonId).className = "btn btn-primary";
-        // document.getElementById("relaters").appendChild(<RelatersSuggest />);
         console.log(suggestionValue);
+        this.props.addRelater(suggestionValue);
+        this.setState({value: ""});
     }
 
     deleteRelater(event) {
@@ -108,11 +107,10 @@ class RelatersSuggest extends React.Component {
         // Autosuggest will pass through all these props to the input.
         const inputProps = {
             type: "text",
-            placeholder: "Someone name",
+            placeholder: "Type and select",
             value,
             onChange: this.onChange,
             className: "form-control",
-            id: "newRelater"
         };
 
         // Finally, render it!
@@ -122,7 +120,7 @@ class RelatersSuggest extends React.Component {
                     <p key={index} className="text-center">
                         <input className="form-control" type="text" value={relater} readOnly />
                         <br/>
-                        <button className="btn btn-danger" onClick={this.deleteRelater} value={relater} id={index}>Xoá người liên quan</button>
+                        <button className="btn btn-danger" onClick={this.props.removeRelater} value={relater} id={index}>Xoá người liên quan</button>
                     </p>)}
                 <Autosuggest
                     suggestions={suggestions}
@@ -133,10 +131,6 @@ class RelatersSuggest extends React.Component {
                     renderSuggestion={renderSuggestion}
                     inputProps={inputProps}
                 />
-                <br />
-                <p className="text-center">
-                    <button className="btn btn-success">Thêm người liên quan</button>
-                </p>
             </div>
         );
     }

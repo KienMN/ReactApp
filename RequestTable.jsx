@@ -1,8 +1,5 @@
 import React from 'react';
 
-// import "/css/dataTables/dataTables.bootstrap.css";
-
-
 class RequestTable extends React.Component {
 	constructor(props) {
 		super(props);
@@ -11,14 +8,12 @@ class RequestTable extends React.Component {
 			tableHeads: ["Tên công việc", "Mức độ ưu tiên", "Người yêu cầu", "Người thực hiện", "Ngày hết hạn", "Trạng thái"],
 			tableData: 
 				[
-					["Sửa bàn phím", "Cao", "Phạm Tuấn Anh", "PTA", "2017-12-18 20:00:00", "In progress"],
-					["Active window", "Bình thường", "Phạm Tuấn Anh", "PTA", "2017-12-17 20:00:00", "In progress"],
-					["Active window", "Thấp", "Phạm Tuấn Anh", "PTA", "2017-12-17 20:00:00", "In progress"],
-					["Active window", "Khẩn cấp", "Phạm Tuấn Anh", "PTA", "2017-12-17 20:00:00", "In progress"]
+					["Sửa bàn phím", "Cao", "Phạm Tuấn Anh", "PTA", "2017-12-18 20:00:00", 1],
+					["Active window", "Bình thường", "Phạm Tuấn Anh", "PTA", "2017-12-17 20:00:00", 2],
+					["Active window", "Thấp", "Phạm Tuấn Anh", "PTA", "2017-12-17 20:00:00", 3],
+					["Active window", "Khẩn cấp", "Phạm Tuấn Anh", "PTA", "2017-12-17 20:00:00", 4]
 				]
-
 		}
-		
 	}
 
 	componentDidMount() {
@@ -35,9 +30,11 @@ class RequestTable extends React.Component {
 				<div className="row">
 					<div className="col-lg-12">
 						<div className="panel panel-default">
+							{/* Request table title */}
 							<div className="panel-heading">
 								{this.state.title}
 							</div>
+							{/* Request table's rows */}
 							<div className="panel-body">
 								<div className="dataTable_wrapper">
 									<table className="table table-striped table-bordered table-hover" id="requestTable">
@@ -75,7 +72,9 @@ class TableRow extends React.Component {
 		this.setState({isRead: true});
 	}
 	render() {
-		var markRead = "unread";
+		const status = ["", "New", "In progress", "Resolved", "Feedback", "Closed", "Cancelled"];
+		// const markRead = ["unread", "read"];
+		let markRead = "unread";
 		if (this.state.isRead) {
 			markRead = "";
 		}
@@ -87,7 +86,7 @@ class TableRow extends React.Component {
 				<td>{this.props.data[2]}</td>
 				<td>{this.props.data[3]}</td>
 				<td>{this.props.data[4]}</td>
-				<td>{this.props.data[5]}</td>
+				<td>{status[this.props.data[5]]}</td>
 			</tr>
 		);
 	}

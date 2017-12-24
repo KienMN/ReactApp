@@ -1,13 +1,4 @@
-// jQuerry
-// include("js/jquery.min.js");
-// Bootstrap core javascript
-// include("js/bootstrap.min.js");
-// DataTables javascript
-// include("js/dataTables/jquery.dataTables.min.js");
-// include("js/dataTables/dataTables.bootstrap.min.js");
-// import * as blabla from "js/dataTables/jquery.dataTables.min.js";
-// import * as ssss from "js/dataTables/dataTables.bootstrap.min.js";
-
+// This scripts is to apply data table to request table
 $(document).ready(function() {
 
 	var t = $('#requestTable').DataTable( {
