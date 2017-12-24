@@ -4,8 +4,8 @@ import RequestTable from './RequestTable.jsx';
 import RequestDescription from './RequestDescription.jsx';
 import SideMenuItem from './SideMenuItem.jsx';
 import Navbar from './Navbar.jsx';
-
-
+import ContentBoard from './ContentBoard.jsx';
+import Editor from './Editor.jsx';
 
 class App extends React.Component {
 	constructor(props) {
@@ -15,9 +15,7 @@ class App extends React.Component {
 	render() {
 		return(
 			<div>
-				<Navbar />
-				<RequestTable />
-				<RequestDescription />
+				<ContentBoard />
 			</div>
 		);
 	}
