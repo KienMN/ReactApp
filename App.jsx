@@ -10,8 +10,9 @@ import RequestTable from './RequestTable.jsx';
 import Navbar from './Navbar.jsx';
 import CreateRequestForm from './CreateRequestForm.jsx';
 import ContentLayout from './ContentLayout.jsx';
-import LoginForm from './LoginForm.jsx'
-import Dashboard from './Dashboard.jsx'
+import LoginForm from './LoginForm.jsx';
+import Dashboard from './Dashboard.jsx';
+import CallApiTest from './CallApiTest.jsx';
 
 class App extends React.Component {
 	constructor(props) {
@@ -20,14 +21,13 @@ class App extends React.Component {
 
 	render() {
 		return(
-
 			<div className="App">
 				<Switch>
 					<Route path="/dashboard" component={Dashboard}/>
 					<Route path="/login" component={LoginForm}/>
-				</Switch>				
-    	</div>
-
+				</Switch>
+				<CallApiTest />
+    		</div>
 		);
 	}
 }	

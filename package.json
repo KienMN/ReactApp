@@ -26,6 +26,7 @@
   "devDependencies": {
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "css-loader": "^0.28.7",
+    "json-loader": "^0.5.7",
     "style-loader": "^0.19.1"
   }
 }
