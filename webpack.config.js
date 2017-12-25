@@ -3,10 +3,12 @@ var config = {
    output: {
       path:'/',
       filename: 'index.js',
+      publicPath: '/'
    },
    devServer: {
       inline: true,
-      port: 8080
+      port: 8080,
+      historyApiFallback: true,
    },
    module: {
       loaders: [

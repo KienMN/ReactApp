@@ -54,6 +54,7 @@ class ContentBoard extends React.Component {
     render() {
         const tmp_content=<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>;   
         return(
+            
             <div className="panel panel-default">
                 <div className="panel-heading">
                 <h4> <span className="glyphicon glyphicon-folder-close"></span> Nội Dung</h4>

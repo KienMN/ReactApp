@@ -1,11 +1,15 @@
 import React from 'react';
-import HeaderNavbar from './HeaderNavbar.jsx'
+import {
+	BrowserRouter as Router,
+	Route,
+	Link,
+	Switch
+  } from 'react-router-dom';
+  
 import RequestTable from './RequestTable.jsx';
-import RequestDescription from './RequestDescription.jsx';
-import SideMenuItem from './SideMenuItem.jsx';
 import Navbar from './Navbar.jsx';
-import ContentBoard from './ContentBoard.jsx';
-import Editor from './Editor.jsx';
+import CreateRequestForm from './CreateRequestForm.jsx';
+import ContentLayout from './ContentLayout.jsx';
 
 class App extends React.Component {
 	constructor(props) {
@@ -14,9 +18,10 @@ class App extends React.Component {
 
 	render() {
 		return(
-			<div>
-				<ContentBoard />
-			</div>
+			<div className="App">
+				<Navbar />
+				<RequestTable />	
+    		</div>
 		);
 	}
 }	
