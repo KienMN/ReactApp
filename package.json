@@ -20,6 +20,7 @@
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
     "react-rte": "^0.16.0",
+    "react-timestamp": "^4.3.1",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.9.7"
   },

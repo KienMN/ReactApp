@@ -1,7 +1,5 @@
 import React from 'react';
 
-let a = [];
-
 class CallApiTest extends React.Component {
 	constructor(props) {
 		super(props);
@@ -37,12 +35,16 @@ class CallApiTest extends React.Component {
 		fetch("/testData.json").then(res => res.json())
       		.then(
         		(result) => {		
+          			let a = [];
           			result.data.map((p, i) => {
-          				a.push(p);
+          				a.push({"name": p.name, "id": p.employee_id});
+          				this.setState({
+          					data: a
+          				});
           			})
-          			
-				},)
-      	console.log(a);
+          			console.log(this.state);
+				},
+			)
 	}
 
 	render() {

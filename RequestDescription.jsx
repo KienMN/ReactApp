@@ -2,33 +2,36 @@ import React from "react";
 import AssignedEmployeeSuggest from './AssignedEmployeeSuggest.jsx';
 import RelatersSuggest from './RelatersSuggest.jsx';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
+import Timestamp from 'react-timestamp'
+
+let employeesNameAndId = [];
 
 class RequestDescription extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			subject: "Sửa bàn phím",
 			data: {
-				"created_by": "Phạm Tuấn Anh",
+				"created_by": 1,
 				"status": 1,
 				"priority": 2,
-				"created_at": "2017/12/20 14:00:00",
-				"deadline": "2017/12/20 16:00:00",
+				"created_at": 1513811420,
+				"deadline": 1513811420,
 				"dept_id": 2,
-				"assigned_to": "NA",
-				"relaters": ["KienMN", "MNKien","Lala"]
+				"assigned_to": 1,
+				"relaters": [1]
 			},
 			tmpData: {
-				"created_by": "Phạm Tuấn Anh",
+				"created_by": 1,
 				"status": 1,
 				"priority": 2,
-				"created_at": "2017/12/20 14:00:00",
-				"deadline": "2017/12/20 16:00:00",
+				"created_at": 1513811420,
+				"deadline": 1513811420,
 				"dept_id": 2,
-				"assigned_to": "NA",
-				"relaters": ["KienMN", "MNKien", "Lala"]
+				"assigned_to": 1,
+				"relaters": [1]
 			},
 			availableStatus: [0, 0, 0, 0, 0, 1],
+			empNameAndId: [{"name": "default", "id": 0}]
 		}
 		// Handle change dept
 		this.handleDeptChange = this.handleDeptChange.bind(this);
@@ -47,12 +50,36 @@ class RequestDescription extends React.Component {
 		this.handleSubmitRelatersChange = this.handleSubmitRelatersChange.bind(this);
 		this.resetRelaters = this.resetRelaters.bind(this);
 		// Hanlde change assigned employee
+		this.handleAssignedEmployeeChange = this.handleAssignedEmployeeChange.bind(this);
 		this.handleSubmitAssignedEmployeeChange = this.handleSubmitAssignedEmployeeChange.bind(this);
 		// Handle change status
 		this.handleStatusChange = this.handleStatusChange.bind(this);
 		this.handleSubmitStatusChange = this.handleSubmitStatusChange.bind(this);
 		this.resetStatus = this.resetStatus.bind(this);
 	}
+
+	componentDidMount() {
+		let resultData;
+		let resultTmpData;
+		fetch('/SampleJsonData/requestInfo.json').then((res) => res.json())
+		.then((result) => {
+			resultData = result.data;
+			resultTmpData = JSON.parse(JSON.stringify(result.data));
+		})
+		let dataRelaters = []
+		fetch('/SampleJsonData/employees.json').then((res) => res.json())
+		.then((result) => {
+			result.data.map((p, i) => employeesNameAndId.push({"name": p.name, "id": p.employee_id}));
+			console.log(employeesNameAndId);
+			this.setState({
+				data: resultData,
+				tmpData: resultTmpData,
+				empNameAndId: employeesNameAndId
+			})
+			console.log(this.state);
+		})
+	}
+
 	// Handle change dept
 	handleDeptChange(event) {
     	let new_dept_id = Number.parseInt(event.target.value);
@@ -119,10 +146,10 @@ class RequestDescription extends React.Component {
               return {tmpData: {relaters: newRelaters, ...others}};
         });
 	}
-	handleRelatersAdd(username) {
+	handleRelatersAdd(empId) {
 		// Check if username is existed
-		if (this.state.tmpData.relaters.filter(relater => (relater === username)).length == 0) {
-			this.state.tmpData.relaters.push(username);
+		if (this.state.tmpData.relaters.filter(relater => (relater === empId)).length == 0) {
+			this.state.tmpData.relaters.push(empId);
 	        let newRelaters = this.state.tmpData.relaters;
 	        this.setState((prevState, props) => {
 	              let {relaters, ...others} = prevState.tmpData;
@@ -145,15 +172,19 @@ class RequestDescription extends React.Component {
     	});
 	}
 	// Handle change assigned employee
-	handleSubmitAssignedEmployeeChange(event) {
-		let newAssignedEmployee = document.getElementById("newAssignedEmployee").value;
+	handleAssignedEmployeeChange(empId) {
+		let newAssignedEmployee = empId;
+		this.setState((prevState, props) => {
+              let {assigned_to, ...others} = prevState.tmpData;
+              return {tmpData: {assigned_to: newAssignedEmployee, ...others}};
+        });
+	}
+
+	handleSubmitAssignedEmployeeChange() {
+		let newAssignedEmployee = this.state.tmpData.assigned_to;
 		this.setState((prevState, props) => {
 			let {assigned_to, ...others} = prevState.data;
 			return {data: {assigned_to: newAssignedEmployee, ...others}};
-		});
-		this.setState((prevState, props) => {
-			let {assigned_to, ...others} = prevState.tmpData;
-			return {tmpData: {assigned_to: newAssignedEmployee, ...others}};
 		});
 	}
 	// Handle change status
@@ -192,7 +223,7 @@ class RequestDescription extends React.Component {
 						<div className="panel panel-default">
 							{/* Request title */}
 							<div className="panel-heading">
-								{this.state.subject}
+								{this.state.data.subject}
 							</div>
 							{/* Edit buttons */}
 							<div className="break-line">
@@ -212,17 +243,17 @@ class RequestDescription extends React.Component {
 										<tbody>
 											<tr>
 												<td><span><strong>Ngày tạo:</strong></span></td>
-												<td>{this.state.data.created_at}</td>
+												<td><Timestamp time={this.state.data.created_at} format='full' /></td>
 												<td><span><strong>Ngày hết hạn:</strong></span></td>
-												<td>{this.state.data.deadline}</td>
+												<td><Timestamp time={this.state.data.deadline} format='full' /></td>
 												<td></td>
 												<td></td>
 											</tr>
 											<tr>
 												<td><span><strong>Người yêu cầu:</strong></span></td>
-												<td>{this.state.data.created_by}</td>
+												<td>{this.state.empNameAndId[this.state.data.created_by - 1].name}</td>
 												<td><span><strong>Người thực hiện:</strong></span></td>
-												<td>{this.state.data.assigned_to}</td>
+												<td>{this.state.empNameAndId[this.state.data.assigned_to - 1].name}</td>
 												<td><span><strong>Bộ phận IT:</strong></span></td>
 												<td>{deptNames[this.state.data.dept_id]}</td>
 											</tr>
@@ -233,7 +264,7 @@ class RequestDescription extends React.Component {
 												<td>{status[this.state.data.status]}</td>
 												<td><span><strong>Người liên quan:</strong></span></td>
 												<td>
-													{this.state.data.relaters.map((person, i) => person + " ")}
+													{this.state.data.relaters.map((person, i) => this.state.empNameAndId[person - 1].name + "; ")}
 												</td>
 											</tr>
 										</tbody>
@@ -329,7 +360,7 @@ class RequestDescription extends React.Component {
 							</div>
 							<div className="modal-body">
 								<label>Danh sách người liên quan</label>
-								<RelatersSuggest relaters = {this.state.tmpData.relaters} removeRelater={this.handleRelatersRemove} addRelater={this.handleRelatersAdd}/>
+								<RelatersSuggest relaters = {this.state.tmpData.relaters} removeRelater={this.handleRelatersRemove} addRelater={this.handleRelatersAdd} employeesNameAndId={this.state.empNameAndId}/>
 							</div>
 							<div className="modal-footer">
 								<button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.handleSubmitRelatersChange}>Xác nhận</button>
@@ -349,7 +380,7 @@ class RequestDescription extends React.Component {
 							</div>
 							<div className="modal-body">
 								<label>Nhập tên người thực hiện</label>
-								<AssignedEmployeeSuggest assignedEmployee={this.state.data.assigned_to} buttonId="changeAssignedEmployeeButton" />
+								<AssignedEmployeeSuggest assignedEmployee={this.state.data.assigned_to} buttonId="changeAssignedEmployeeButton" employeesNameAndId={this.state.empNameAndId} changeEmployee={this.handleAssignedEmployeeChange}/>
 							</div>
 							<div className="modal-footer">
 								<button type="button" className="btn btn-primary disabled" data-dismiss="modal" onClick={this.handleSubmitAssignedEmployeeChange} id="changeAssignedEmployeeButton">Xác nhận</button>

@@ -1,0 +1,26 @@
+{
+    "data": {
+        "id": 2,
+        "created_by": 2,
+        "assigned_to": 3,
+        "team_id": 1,
+        "dept_id": 1,
+        "subject": "Test create request",
+        "content": "Test create request",
+        "status": 1,
+        "priority": 3,
+        "rating": 0,
+        "relaters": [
+            1, 2
+        ],
+        "deadline": 1513811420,
+        "created_at": 1513811420,
+        "updated_at": 1513616300,
+        "deleted_at": 0,
+        "resolved_at": 0,
+        "closed_at": 0,
+        "images": []
+    },
+    "message": "Get request successfully",
+    "status": 200
+}

@@ -1,60 +1,6 @@
 import React from 'react';
 import Autosuggest from 'react-autosuggest';
 
-// List of languages that you'd like to autosuggest.
-const languages = [
-{
-    name: 'C',
-    year: 1972
-},
-{
-    name: 'Elm',
-    year: 2012
-},
-{
-    name: 'Kien',
-    year: 2012
-},
-{
-    name: 'Kennen',
-    year: 2012
-},
-{
-    name: 'Kassadin',
-    year: 2012
-},
-{
-    name: 'Kayn',
-    year: 2012
-},
-{
-    name: 'NA',
-    year: 2012
-},
-];
-
-// Teach Autosuggest how to calculate suggestions for any given input value.
-const getSuggestions = value => {
-    const inputValue = value.trim().toLowerCase();
-    const inputLength = inputValue.length;
-
-    return inputLength === 0 ? [] : languages.filter(lang =>
-        lang.name.toLowerCase().slice(0, inputLength) === inputValue
-        );
-};
-
-// When suggestion is clicked, Autosuggest needs to populate the input
-// based on the clicked suggestion. Teach Autosuggest how to calculate the
-// input value for every given suggestion.
-const getSuggestionValue = suggestion => suggestion.name;
-
-// Use your imagination to render suggestions.
-const renderSuggestion = suggestion => (
-    <div>
-    {suggestion.name}
-    </div>
-    );
-
 class RelatersSuggest extends React.Component {
     constructor(props) {
         super(props);
@@ -67,7 +13,33 @@ class RelatersSuggest extends React.Component {
         this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(this);
         this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this);
         this.onSuggestionSelected = this.onSuggestionSelected.bind(this);
-        this.deleteRelater = this.deleteRelater.bind(this);
+        this.renderSuggestion = this.renderSuggestion.bind(this);
+        this.getSuggestions = this.getSuggestions.bind(this);
+        this.getSuggestionValue = this.getSuggestionValue.bind(this);
+    }
+
+    // Teach Autosuggest how to calculate suggestions for any given input value.
+    getSuggestions ( value) {
+        const inputValue = value.trim().toLowerCase();
+        const inputLength = inputValue.length;
+
+        return inputLength === 0 ? [] : this.props.employeesNameAndId.filter(emp =>
+            emp.name.toLowerCase().slice(0, inputLength) === inputValue
+            );
+    };
+
+    // When suggestion is clicked, Autosuggest needs to populate the input
+    // based on the clicked suggestion. Teach Autosuggest how to calculate the
+    // input value for every given suggestion.
+    getSuggestionValue (suggestion) {return suggestion.name;}
+
+    //render suggestions.
+    renderSuggestion(suggestion) {
+        return (
+            <div>
+                {suggestion.name}
+            </div>
+        );
     }
 
     onChange(event, { newValue }) {
@@ -77,7 +49,7 @@ class RelatersSuggest extends React.Component {
     // Autosuggest will call this function every time you need to update suggestions.
     // You already implemented this logic above, so just use it.
     onSuggestionsFetchRequested({ value }) {
-        this.setState({suggestions: getSuggestions(value)});
+        this.setState({suggestions: this.getSuggestions(value)});
     };
 
     // Autosuggest will call this function every time you need to clear suggestions.
@@ -85,20 +57,15 @@ class RelatersSuggest extends React.Component {
         this.setState({suggestions: []});
     };
 
-    onSuggestionSelected(event, { suggestionValue }) {
-        console.log(suggestionValue);
-        this.props.addRelater(suggestionValue);
+    onSuggestionSelected(event, { suggestion }) {
+        this.props.addRelater(suggestion.id);
         this.setState({value: ""});
     }
 
-    deleteRelater(event) {
-        let index = event.target.id;
-        this.state.relaters.splice(index, 1);
-        let newRelaters = this.state.relaters;
-        this.setState((prevState, props) => {
-              let {relaters, ...others} = prevState;
-              return {relaters: newRelaters, ...others};
-        });
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            relaters: nextProps.relaters
+        })
     }
 
     render() {
@@ -112,13 +79,13 @@ class RelatersSuggest extends React.Component {
             onChange: this.onChange,
             className: "form-control",
         };
-
         // Finally, render it!
         return (
+
             <div>
                 {this.state.relaters.map((relater, index) => 
                     <p key={index} className="text-center">
-                        <input className="form-control" type="text" value={relater} readOnly />
+                        <input className="form-control" type="text" value={this.props.employeesNameAndId[relater - 1].name} readOnly />
                         <br/>
                         <button className="btn btn-danger" onClick={this.props.removeRelater} value={relater} id={index}>Xoá người liên quan</button>
                     </p>)}
@@ -127,8 +94,8 @@ class RelatersSuggest extends React.Component {
                     onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
                     onSuggestionsClearRequested={this.onSuggestionsClearRequested}
                     onSuggestionSelected = {this.onSuggestionSelected}
-                    getSuggestionValue={getSuggestionValue}
-                    renderSuggestion={renderSuggestion}
+                    getSuggestionValue={this.getSuggestionValue}
+                    renderSuggestion={this.renderSuggestion}
                     inputProps={inputProps}
                 />
             </div>
