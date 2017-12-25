@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ContentLayout from './ContentLayout.jsx'
 import {Link} from 'react-router-dom';
+import Timestamp from 'react-timestamp';
+
 class RequestTable extends React.Component {
 	constructor(props) {
 		super(props);
@@ -14,8 +16,38 @@ class RequestTable extends React.Component {
 		//		["Active window", "Thấp", "Phạm Tuấn Anh", "PTA", "2017-12-17 20:00:00", 3],
 		//		["Active window", "Khẩn cấp", "Phạm Tuấn Anh", "PTA", "2017-12-17 20:00:00", 4]
 		//	]
+			tableData: [{
+	            "id": 0,
+	            "created_by": 1,
+	            "assigned_to": 1,
+	            "team_id": 1,
+	            "dept_id": 1,
+	            "subject": "Test create request",
+	            "content": "Test create request",
+	            "status": 1,
+	            "priority": 1,
+	            "rating": 0,
+	            "relaters": [
+	                1
+	            ],
+	            "deadline": 1513811420,
+	            "created_at": 1513811420,
+	            "updated_at": 1513612077,
+	            "deleted_at": 0,
+	            "resolved_at": 0,
+	            "closed_at": 0,
+	            "images": []
+        	}],
+			empNameAndId: [{"name": "default", "id": 0}],
+			status: this.props.status
 		}
 	}
+
+	componentWillReceiveProps(nextProps) {
+        this.setState({
+            status: nextProps.status
+        })
+    }
 
 	componentWillMount() {
 		const s = document.createElement('script');
@@ -24,6 +56,26 @@ class RequestTable extends React.Component {
     	s.src = "/RequestTable.js";
     	document.body.appendChild(s);
 	}
+
+	componentDidMount() {
+		let employeesNameAndId = [];
+		fetch('/SampleJsonData/employees.json').then((res) => res.json())
+		.then((result) => {
+			result.data.map((p, i) => employeesNameAndId.push({"name": p.name, "id": p.employee_id}));
+		})
+		fetch('/SampleJsonData/requests.json').then((res) => res.json())
+		.then((result) => {
+			let a = [];
+			result.data.map((dat, i) => {a.push(dat)});
+			this.setState({
+				tableData: a,
+				empNameAndId: employeesNameAndId
+			})
+		})
+		
+		
+	}
+
 	//props: status, user_id
 	//status:0 - all, 1 - new, 2 - inprogress, 3 - resolved, 4 - feedback, 5 - closed, 6 - cancelled 
 	//props: index
@@ -52,7 +104,8 @@ class RequestTable extends React.Component {
 			"Công việc của bộ phận IT"];
 		const tableData =[];
 		// = this.props.data;
-		console.log(this.props.data)
+		console.log(this.props.data);
+		console.log(this.state);
 		return (
 			<div id="page-wrapper">
 				<div className="row">
@@ -73,9 +126,10 @@ class RequestTable extends React.Component {
 											</tr>
 										</thead>
 										<tbody>
-											{tableData.map((request, index) =>  
+											{/*tableData.map((request, index) =>  
 											 (request[5] === this.props.status || this.props.status === 0) 
-											 ? <TableRow key = {index} data = {request} /> : <tr></tr>)}
+											 ? <TableRow key = {index} data = {request} /> : <tr></tr>)}*/}
+											 {this.state.tableData.map((request, index) => <TableRow key={index} data={request} employees={this.state.empNameAndId} status={this.state.status} />)}
 										</tbody>
 									</table>
 								</div>
@@ -93,7 +147,8 @@ class TableRow extends React.Component {
 		super(props);
 		this.select = this.select.bind(this);
 		this.state = {
-			isRead: false
+			isRead: false,
+			status: this.props.status
 		}
 	}
 
@@ -102,24 +157,35 @@ class TableRow extends React.Component {
 		ReactDOM.render(<ContentLayout />, document.getElementById("dashboard"));
 	}
 
+	componentWillReceiveProps(nextProps) {
+        this.setState({
+            status: nextProps.status
+        })
+    }
+
 	render() {
 		const status = ["", "New", "In progress", "Resolved", "Feedback", "Closed", "Cancelled"];
+		const priority = ["", "Thấp", "Bình thường", "Cao", "Khẩn cấp"];
 		// const markRead = ["unread", "read"];
 		let markRead = "unread";
 		if (this.state.isRead) {
 			markRead = "";
 		}
+		if (this.props.data.status == this.props.status || this.props.status == 0) {
 		return (
 			<tr onClick={this.select} className={markRead}>
 				<td></td>
-				<td>{this.props.data[0]}</td>
-				<td>{this.props.data[1]}</td>
-				<td>{this.props.data[2]}</td>
-				<td>{this.props.data[3]}</td>
-				<td>{this.props.data[4]}</td>
-				<td>{status[this.props.data[5]]}</td>
+				<td>{this.props.data.subject}</td>
+				<td>{priority[this.props.data.priority]}</td>
+				<td>{this.props.employees[this.props.data.created_by - 1].name}</td>
+				<td>{this.props.employees[this.props.data.assigned_to - 1].name}</td>
+				<td><Timestamp time={this.props.data.deadline} format='full' /></td>
+				<td>{status[this.props.data.status]}</td>
 			</tr>
-		);
+		);}
+		else {
+			return null;
+		}
 	}
 }
 

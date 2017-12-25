@@ -1,0 +1,68 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "created_by": 1,
+            "assigned_to": 3,
+            "team_id": 1,
+            "dept_id": 0,
+            "subject": "Test create request",
+            "content": "Test create request",
+            "status": 1,
+            "priority": 1,
+            "rating": 0,
+            "relaters": [
+                2
+            ],
+            "deadline": 1513811420,
+            "created_at": 1513811420,
+            "updated_at": 1513612077,
+            "deleted_at": 0,
+            "resolved_at": 0,
+            "closed_at": 0,
+            "images": []
+        },
+        {
+            "id": 3,
+            "created_by": 2,
+            "assigned_to": 1,
+            "team_id": 1,
+            "dept_id": 0,
+            "subject": "just for test",
+            "content": "just for test",
+            "status": 2,
+            "priority": 2,
+            "rating": 0,
+            "relaters": [],
+            "deadline": 1514173140,
+            "created_at": 1514173140,
+            "updated_at": 1514177562,
+            "deleted_at": 0,
+            "resolved_at": 0,
+            "closed_at": 0,
+            "images": []
+        },
+        {
+            "id": 4,
+            "created_by": 1,
+            "assigned_to": 1,
+            "team_id": 1,
+            "dept_id": 0,
+            "subject": "just for test 2",
+            "content": "just for test 2",
+            "status": 3,
+            "priority": 2,
+            "rating": 0,
+            "relaters": [],
+            "deadline": 1514173140,
+            "created_at": 1514173140,
+            "updated_at": 1514181619,
+            "deleted_at": 0,
+            "resolved_at": 0,
+            "closed_at": 0,
+            "images": []
+        }
+    ],
+    "message": "Get all of my requests successfully",
+    "status": 200
+}

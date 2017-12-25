@@ -70,13 +70,11 @@ class RequestDescription extends React.Component {
 		fetch('/SampleJsonData/employees.json').then((res) => res.json())
 		.then((result) => {
 			result.data.map((p, i) => employeesNameAndId.push({"name": p.name, "id": p.employee_id}));
-			console.log(employeesNameAndId);
 			this.setState({
 				data: resultData,
 				tmpData: resultTmpData,
 				empNameAndId: employeesNameAndId
 			})
-			console.log(this.state);
 		})
 	}
 
