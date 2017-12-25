@@ -5,14 +5,15 @@ import {Link} from 'react-router-dom';
 class RequestTable extends React.Component {
 	constructor(props) {
 		super(props);
+		//props: data cua employee_id
 		this.state = {
 			tableHeads: ["Tên công việc", "Mức độ ưu tiên", "Người yêu cầu", "Người thực hiện", "Ngày hết hạn", "Trạng thái"],
-			tableData: [
-				["Sửa bàn phím", "Cao", "Phạm Tuấn Anh", "PTA", "2017-12-18 20:00:00", 1],
-				["Active window", "Bình thường", "Phạm Tuấn Anh", "PTA", "2017-12-17 20:00:00", 2],
-				["Active window", "Thấp", "Phạm Tuấn Anh", "PTA", "2017-12-17 20:00:00", 3],
-				["Active window", "Khẩn cấp", "Phạm Tuấn Anh", "PTA", "2017-12-17 20:00:00", 4]
-			]
+		//	tableData: [
+		//		["Sửa bàn phím", "Cao", "Phạm Tuấn Anh", "PTA", "2017-12-18 20:00:00", 1],
+		//		["Active window", "Bình thường", "Phạm Tuấn Anh", "PTA", "2017-12-17 20:00:00", 2],
+		//		["Active window", "Thấp", "Phạm Tuấn Anh", "PTA", "2017-12-17 20:00:00", 3],
+		//		["Active window", "Khẩn cấp", "Phạm Tuấn Anh", "PTA", "2017-12-17 20:00:00", 4]
+		//	]
 		}
 	}
 
@@ -27,10 +28,31 @@ class RequestTable extends React.Component {
 	//status:0 - all, 1 - new, 2 - inprogress, 3 - resolved, 4 - feedback, 5 - closed, 6 - cancelled 
 	//props: index
   	//0-Viec toi yeu cau, 1 - Cong viec lien quan, 2-Cong viec duoc giao 3- Công việc của team  4-Công việc của bộ phận IT
-      
+	 /*
+	componentDidMount() {
+		fetch("http://localhost:3001/api/v1/requests/" + this.props.data.employee_id, {
+			method: 'GET',
+			headers: {
+			  "Access-Control-Allow-Origin" : "*", 
+			  "sessionkey": this.props.data.sessionkey
+			}
+		  })
+		  .then(results => {
+			return results.json();
+		  }).then(data => {
+			if (data.status === 200) {
+				console.log(data.data)
+			} else {
+			 //
+			}
+		  })
+	}*/
 	render() {
 		const titles = ["Việc tôi yêu cầu", "Công việc liên quan", "Công việc được giao", "Công việc của team", 
 			"Công việc của bộ phận IT"];
+		const tableData =[];
+		// = this.props.data;
+		console.log(this.props.data)
 		return (
 			<div id="page-wrapper">
 				<div className="row">
@@ -51,7 +73,7 @@ class RequestTable extends React.Component {
 											</tr>
 										</thead>
 										<tbody>
-											{this.state.tableData.map((request, index) =>  
+											{tableData.map((request, index) =>  
 											 (request[5] === this.props.status || this.props.status === 0) 
 											 ? <TableRow key = {index} data = {request} /> : <tr></tr>)}
 										</tbody>
@@ -79,6 +101,7 @@ class TableRow extends React.Component {
 		this.setState({isRead: true});
 		ReactDOM.render(<ContentLayout />, document.getElementById("dashboard"));
 	}
+
 	render() {
 		const status = ["", "New", "In progress", "Resolved", "Feedback", "Closed", "Cancelled"];
 		// const markRead = ["unread", "read"];

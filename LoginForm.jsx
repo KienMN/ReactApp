@@ -1,5 +1,8 @@
 import React from 'react';
 import './css/loginForm.css'
+import ReactDOM from 'react-dom'
+import {Link, Redirect} from 'react-router-dom';
+import Dashboard from './Dashboard.jsx'
 class LoginForm extends React.Component {
     
     constructor(props) {
@@ -8,11 +11,13 @@ class LoginForm extends React.Component {
       this.state = {
         username: '',
         password: '',
-        passwordConfirm: ''
+        passwordConfirm: '', 
+        valid: false
       };
       
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
+      this.submitData = this.submitData.bind(this);
     }
     
     handleChange(e) {
@@ -24,20 +29,54 @@ class LoginForm extends React.Component {
       
       this.showInputError(e.target.name);
     }
-    
+ 
     handleSubmit(e) {    
       e.preventDefault();
-      
       console.log('component state', JSON.stringify(this.state));
       
       if (!this.showFormErrors()) {
         console.log('form is invalid: do not submit');
       } else {
         console.log('form is valid: submit');
+        this.submitData();
+     
+        // if (this.state.valid)  this.context.router.push("/dashboard") 
+       // else this.props.history.push("/login") 
       }
     }
     
-    showFormErrors() {
+    submitData() {
+      fetch('http://localhost:3001/api/v1/login', {
+        method: 'POST',
+        headers: {
+          "Access-Control-Allow-Origin" : "*"
+        }, 
+        body:JSON.stringify({
+          username: this.state.username,
+          password: this.state.password
+        })
+      })
+      .then(results => {
+        return results.json();
+      }).then(data => {
+        if (data.status === 200) {
+          this.props.onHandle(data.data)
+          //console.log(data.data.sessionkey)
+          this.setState({
+            valid: true
+          });
+
+
+        } else {
+          this.setState({
+            valid: false
+          });
+        }
+      })
+    }
+
+
+      showFormErrors() {
       const inputs = document.querySelectorAll('input');
       let isFormValid = true;
       
@@ -60,7 +99,7 @@ class LoginForm extends React.Component {
       const error = document.getElementById(`${refName}Error`);
       const isPassword = refName.indexOf('password') !== -1;
       const isPasswordConfirm = refName === 'passwordConfirm';
-      
+        
       if (isPasswordConfirm) {
         if (this.refs.password.value !== this.refs.passwordConfirm.value) {
           this.refs.passwordConfirm.setCustomValidity('Passwords do not match');
@@ -99,7 +138,7 @@ class LoginForm extends React.Component {
           <div className="form-group">
             <label id="usernameLabel">Username</label>
             <input className="form-control"
-              type="email"
+              type="username"
               name="username"
               ref="username"
               placeholder="example@example.com"
@@ -131,8 +170,10 @@ class LoginForm extends React.Component {
               required />
             <div className="error" id="passwordConfirmError" />
           </div>
+          <Link to = "/dashboard">
           <button className="btn btn-primary pull-right btn-lg"
-            onClick={ this.handleSubmit }>Login</button>
+            onClick={this.handleSubmit}>Login</button>
+          </Link>
         </form>
         </div>
       );
