@@ -2,8 +2,7 @@ var config = {
    entry: './main.js',
    output: {
       path:'/',
-      filename: 'index.js',
-      publicPath: '/'
+      filename: 'index.js'
    },
    devServer: {
       inline: true,

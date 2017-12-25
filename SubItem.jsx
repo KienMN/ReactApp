@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Link, Route, Router} from 'react-router-dom';
-
+import RequestTable from './RequestTable.jsx'
 /** 
   * Components: SubItem
   * In progress
@@ -17,17 +17,15 @@ class SubItem extends React.Component {
             name: this.props.name,
             request_count: this.props.request_count,
             is_new: this.props.is_new, 
-            is_active: this.props.is_active
+            is_active: this.props.is_active, 
+          
         };
-        this.handleClick = this.handleClick.bind(this);
+      
     }
     //cannot found #dashboard
-    handleClick() {      
-        document.body.scrollTop = document.documentElement.scrollTop = 0;
-   //     ReactDOM.render(<RequestTable user_id={this.props.user_id} status={this.props.index}/>, 
-   //                     document.getElementById("dashboard") );    
-    }
+   
     render() {
+        //status
         //1 - new, 2 - inprogress, 3 - resolved, 4 - feedback, 5 - closed,6 - cancelled
         const icons = [
             {label: "label label-primary", gly: "fa fa-inbox fa-fw"},   //all
@@ -49,20 +47,23 @@ class SubItem extends React.Component {
 				<a href="#"><i className="fa fa-inbox fa-fw"></i> All<span className="label label-danger float-right">18</span></a>
             </li>
             */}    
-            <button style={{width:'100%', textAlign:'left'}} onClick={this.handleClick} className="list-group-item">
-                <i className={icons[this.props.index].gly}></i> {"  " + this.props.name}
+            <Link to={"/dashboard/"+ request_link[this.props.index]}>
+            <button style={{width:'100%', textAlign:'left'}} onClick={this.props.handleClick} className="list-group-item">
+                <i className={icons[this.props.status].gly}></i> {"  " + this.props.name}
                 { (this.props.request_count > 0) ? 
-                 <span style={{float: 'right'}} className={icons[this.props.index].label}>{this.props.request_count}</span>
+                 <span style={{float: 'right'}} className={icons[this.props.status].label}>{this.props.request_count}</span>
                  : <span></span>
                 }
             </button>
+            </Link>
             </div>
         );
     }
 }
 
 SubItem.defaultProps = {
-    index: 0,
+    index: 1,
+    user_id: 1,
     name: 'Sub',
     request_count: 0,
     is_new: false, 

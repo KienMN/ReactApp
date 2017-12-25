@@ -70,8 +70,8 @@ import { Link } from 'react-router-dom';
             {id: 3, name: "Cao"},
             {id: 4, name: "Khẩn cấp"}
         ];
-
         return(
+            
             <div id="page-wrapper">
             <div className="panel panel-default">
                 <div className="panel-heading">
@@ -145,11 +145,10 @@ import { Link } from 'react-router-dom';
                     </div>
                     
                     <button type="submit" className="btn btn-primary pull-right" onClick={this.validate}>Submit</button>
-                {/*
-                    <Link to={"/user/:user_id/dashboard"}>
+                
+                   
                     <button type="cancel" className="btn btn-default pull-right" onClick={this.cancel}>Cancel</button>
-                    </Link>
-                */}
+                   
                 </div>    
             </div>
             </div>

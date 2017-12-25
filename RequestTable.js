@@ -1,6 +1,5 @@
 // This scripts is to apply data table to request table
 $(document).ready(function() {
-
 	var t = $('#requestTable').DataTable( {
 		responsive: true,
 		"columnDefs": [ {
