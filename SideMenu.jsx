@@ -34,7 +34,7 @@ class SideMenu extends React.Component {
 						<SideMenuItem user_id={this.props.user_id} type={3} name="Công việc của bộ phận IT"/>
 						:<div></div>
 						}
-                	</ul>
+            </ul>
 				</div>			
 			</div>
 		);

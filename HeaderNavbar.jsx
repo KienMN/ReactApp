@@ -9,10 +9,17 @@ class HeaderNavbar extends React.Component {
 	}
 	render() {
 		return (
-			<div className="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div>
 				<div className="navbar-header">
 					<a href="#" className="navbar-brand">IT Supporter</a>
 				</div>
+
+				<button type="button" className="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span className="sr-only">Toggle navigation</span>
+                    <span className="icon-bar"></span>
+                    <span className="icon-bar"></span>
+                    <span className="icon-bar"></span>
+                </button>
 
 				<ul className="nav navbar-right navbar-top-links">
 					<li className="dropdown">

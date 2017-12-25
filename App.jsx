@@ -20,12 +20,14 @@ class App extends React.Component {
 
 	render() {
 		return(
+
 			<div className="App">
 				<Switch>
 					<Route path="/dashboard" component={Dashboard}/>
 					<Route path="/login" component={LoginForm}/>
 				</Switch>				
-    		</div>
+    	</div>
+
 		);
 	}
 }	
