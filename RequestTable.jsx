@@ -1,10 +1,11 @@
 import React from 'react';
-
+import ReactDOM from 'react-dom';
+import ContentLayout from './ContentLayout.jsx'
+import {Link} from 'react-router-dom';
 class RequestTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			title: "Danh sách công việc liên quan",
 			tableHeads: ["Tên công việc", "Mức độ ưu tiên", "Người yêu cầu", "Người thực hiện", "Ngày hết hạn", "Trạng thái"],
 			tableData: [
 				["Sửa bàn phím", "Cao", "Phạm Tuấn Anh", "PTA", "2017-12-18 20:00:00", 1],
@@ -15,15 +16,21 @@ class RequestTable extends React.Component {
 		}
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 		const s = document.createElement('script');
     	s.type = 'text/javascript';
     	s.async = true;
-    	s.src = "RequestTable.js";
+    	s.src = "/RequestTable.js";
     	document.body.appendChild(s);
 	}
-
+	//props: status, user_id
+	//status:0 - all, 1 - new, 2 - inprogress, 3 - resolved, 4 - feedback, 5 - closed, 6 - cancelled 
+	//props: index
+  	//0-Viec toi yeu cau, 1 - Cong viec lien quan, 2-Cong viec duoc giao 3- Công việc của team  4-Công việc của bộ phận IT
+      
 	render() {
+		const titles = ["Việc tôi yêu cầu", "Công việc liên quan", "Công việc được giao", "Công việc của team", 
+			"Công việc của bộ phận IT"];
 		return (
 			<div id="page-wrapper">
 				<div className="row">
@@ -31,7 +38,7 @@ class RequestTable extends React.Component {
 						<div className="panel panel-default">
 							{/* Request table title */}
 							<div className="panel-heading">
-								{this.state.title}
+								{titles[this.props.index]}
 							</div>
 							{/* Request table's rows */}
 							<div className="panel-body">
@@ -44,7 +51,9 @@ class RequestTable extends React.Component {
 											</tr>
 										</thead>
 										<tbody>
-											{this.state.tableData.map((request, index) => <TableRow key={index} data={request} />)}
+											{this.state.tableData.map((request, index) =>  
+											 (request[5] === this.props.status || this.props.status === 0) 
+											 ? <TableRow key = {index} data = {request} /> : <tr></tr>)}
 										</tbody>
 									</table>
 								</div>
@@ -67,8 +76,8 @@ class TableRow extends React.Component {
 	}
 
 	select() {
-		alert("OK");
 		this.setState({isRead: true});
+		ReactDOM.render(<ContentLayout />, document.getElementById("dashboard"));
 	}
 	render() {
 		const status = ["", "New", "In progress", "Resolved", "Feedback", "Closed", "Cancelled"];

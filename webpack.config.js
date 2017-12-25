@@ -2,11 +2,12 @@ var config = {
    entry: './main.js',
    output: {
       path:'/',
-      filename: 'index.js',
+      filename: 'index.js'
    },
    devServer: {
       inline: true,
-      port: 8080
+      port: 8080,
+      historyApiFallback: true,
    },
    module: {
       loaders: [
@@ -21,6 +22,7 @@ var config = {
          },
          // {test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'},
         {test: /\.css$/, exclude: /node_modules/, loader: 'style-loader!css-loader'}
+        
       ]
    }
 }

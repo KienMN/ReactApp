@@ -185,7 +185,7 @@ class RequestDescription extends React.Component {
 		const status = ["", "New", "In progress", "Resolved", "Feedback", "Closed", "Cancelled"];
 		
 		return (
-			<div id="page-wrapper">
+			<div>
 				{/* Request Info */}
 				<div className="row">
 					<div className="col-lg-12">
