@@ -1,12 +1,18 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import SideMenuItem from './SideMenuItem.jsx';
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
+import CreateRequestForm from './CreateRequestForm.jsx';
 class SideMenu extends React.Component {
 	
 	constructor(props) {
 		super(props);
+	this.handleClick = this.handleClick.bind(this);
 	}
 
+	handleClick() {
+		ReactDOM.render(<CreateRequestForm />, document.getElementById("dashboard"));
+	}
 	render() {
 		const type_id = 2; //employee_type
 		return (
@@ -15,11 +21,9 @@ class SideMenu extends React.Component {
 				<div className="sidebar-nav navbar-collapse">
 					<ul className="nav" id="side-menu">
 						<li className="sidebar-search">
-							<Link to="/dashboard/create">
-                            <button className="input-group custom-search-form form-control btn btn-danger">
+							<button onClick={this.handleClick}className="input-group custom-search-form form-control btn btn-danger">
                                 <i className="fa fa-plus"></i> Thêm yêu cầu
                             </button>
-							</Link>
                         </li>
 						<SideMenuItem user_id={this.props.user_id} type={0} name="Việc tôi yêu cầu" active="active"/>
 						<SideMenuItem user_id={this.props.user_id} type={1} name="Công việc liên quan"/>

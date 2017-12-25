@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+import ContentLayout from './ContentLayout.jsx'
 import {Link} from 'react-router-dom';
 class RequestTable extends React.Component {
 	constructor(props) {
@@ -14,7 +16,7 @@ class RequestTable extends React.Component {
 		}
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 		const s = document.createElement('script');
     	s.type = 'text/javascript';
     	s.async = true;
@@ -49,7 +51,9 @@ class RequestTable extends React.Component {
 											</tr>
 										</thead>
 										<tbody>
-											{this.state.tableData.map((request, index) => <TableRow key = {index} data = {request} />)}
+											{this.state.tableData.map((request, index) =>  
+											 (request[5] === this.props.status || this.props.status === 0) 
+											 ? <TableRow key = {index} data = {request} /> : <tr></tr>)}
 										</tbody>
 									</table>
 								</div>
@@ -73,6 +77,7 @@ class TableRow extends React.Component {
 
 	select() {
 		this.setState({isRead: true});
+		ReactDOM.render(<ContentLayout />, document.getElementById("dashboard"));
 	}
 	render() {
 		const status = ["", "New", "In progress", "Resolved", "Feedback", "Closed", "Cancelled"];
