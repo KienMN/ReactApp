@@ -8,7 +8,7 @@ class SideMenuItem extends React.Component {
 
 	render() {
 		return(
-			<li className="active"><a href="#"><i className="fa fa-dashboard fa-fw"></i> Việc tôi yêu cầu<span className="fa arrow"></span></a>
+			<li className={this.props.active}><a href="#"><i className="fa fa-dashboard fa-fw"></i> {this.props.title}<span className="fa arrow"></span></a>
 				<ul className="nav nav-second-level">
 					<li>
 						<a href="#"><i className="fa fa-inbox fa-fw"></i> All<span className="label label-danger float-right">18</span></a>

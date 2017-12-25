@@ -13,14 +13,16 @@ class SideMenu extends React.Component {
 				<div className="sidebar-nav navbar-collapse">
 					<ul className="nav" id="side-menu">
 						<li className="sidebar-search">
-                            <button className="input-group custom-search-form form-control btn btn-danger">
-                                <i className="fa fa-plus"></i> Thêm yêu cầu
-                            </button>
+                            <div className="input-group custom-search-form">
+                                <button className="form-control btn btn-danger">
+                                	<i className="fa fa-plus"></i> Thêm yêu cầu
+                                </button>
+                            </div>
                         </li>
-                        <SideMenuItem />
-                        <SideMenuItem />
+                        <SideMenuItem title="Việc tôi yêu cầu" active="active"/>
+                        <SideMenuItem title="Việc tôi được giao" active=""/>
                     </ul>
-				</div>			
+				</div>
 			</div>
 		);
 	}

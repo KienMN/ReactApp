@@ -44,7 +44,7 @@ class RequestTable extends React.Component {
 											</tr>
 										</thead>
 										<tbody>
-											{this.state.tableData.map((request, index) => <TableRow key = {index} data = {request} />)}
+											{this.state.tableData.map((request, index) => <TableRow key={index} data={request} />)}
 										</tbody>
 									</table>
 								</div>
