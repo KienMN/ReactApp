@@ -54,7 +54,7 @@ class SubItem extends React.Component {
             {/*
             <Link to={"/dashboard/"+ request_link[this.props.index]}>
             */}
-
+            
             <button style={{width:'100%', textAlign:'left'}} onClick={this.handleClick} className="list-group-item">
                 <i className={icons[this.props.status].gly}></i> {"  " + this.props.name}
                 { (this.props.request_count > 0) ? 

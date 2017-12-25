@@ -8,26 +8,42 @@ import {
   
 import RequestTable from './RequestTable.jsx';
 import Navbar from './Navbar.jsx';
-import CreateRequestForm from './CreateRequestForm.jsx';
-import ContentLayout from './ContentLayout.jsx';
-import LoginForm from './LoginForm.jsx';
-import Dashboard from './Dashboard.jsx';
-import CallApiTest from './CallApiTest.jsx';
+import LoginForm from './LoginForm.jsx'
+import Dashboard from './Dashboard.jsx'
+
 
 class App extends React.Component {
 	constructor(props) {
-		super(props);		
+		super(props);	
+		this.state = {
+			data: null
+		}	
+		this.getSessionKey = this.getSessionKey.bind(this);
 	}
 
+	getSessionKey(dt) {
+		this.setState({
+			data : dt
+		});
+	}
 	render() {
+		
 		return(
 			<div className="App">
-				<Switch>
-					<Route path="/dashboard" component={Dashboard}/>
-					<Route path="/login" component={LoginForm}/>
-				</Switch>
-				<CallApiTest />
-    		</div>
+			{/*
+				{
+					(this.state.data) ? 
+					<Dashboard data={this.state.data} />
+					: <LoginForm onHandle={this.getSessionKey}/>
+				}
+			*/}		
+			<Route path="/login"
+               	render={() => <LoginForm onHandle={this.getSessionKey}/>} />
+			{console.log(this.state.data)}	
+			<Route path="/dashboard"
+				render={() => <Dashboard data={this.state.data} />}/>						
+    	</div>
+
 		);
 	}
 }	

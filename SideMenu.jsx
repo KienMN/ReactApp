@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import SideMenuItem from './SideMenuItem.jsx';
 import {Link} from 'react-router-dom';
 import CreateRequestForm from './CreateRequestForm.jsx';
+
 class SideMenu extends React.Component {
 	
 	constructor(props) {

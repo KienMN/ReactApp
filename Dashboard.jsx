@@ -12,29 +12,14 @@ class DashBoard extends React.Component {
          <div>
             <Navbar />
             <div id="dashboard">
-            <Switch >
-            {/*
+         
+              {console.log(this.props.data)}
                 <Route
-                    path={this.props.match.url + "/my"}
-                   render={() => <RequestTable index={0} status={0}/>} />
-                <Route
-                    path={this.props.match.url + "/related"}
-                   render={() => <RequestTable index={1} status={0}/>} />
-                <Route
-                    path={this.props.match.url + "/offered"}
-                   render={() => <RequestTable index={2} status={1}/>} />
-                <Route
-                    path={this.props.match.url + "/team"}
-                   render={() => <RequestTable index={3} status={0}/>} />
-                <Route
-                    path={this.props.match.url + "/dept"}
-                   render={() => <RequestTable index={4} status={0}/>} />
-            */}   
-                <Route path={this.props.match.url + "/content"} component={ContentLayout}/>
-                <Route
-                    path={this.props.match.url}
-                   render={() => <RequestTable index={0} status={0}/>} />
-            </Switch>
+                    path="/dashboard"
+                    render={() => <RequestTable data={this.props.data} index={0} status={0}/>} />
+              
+                {/*<RequestTable data={this.props.data} index={0} status={0}/>*/}
+       
             </div>
          </div>
         );
