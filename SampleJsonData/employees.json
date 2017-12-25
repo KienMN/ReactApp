@@ -1,0 +1,30 @@
+{
+	"data": [
+		{
+			"employee_id": 1,
+			"type": 1,
+			"team_id": 1,
+			"dept_id": 1,
+			"name": "Kien Mai Ngoc",
+			"email": "kienmn97@gmail.com"
+		},
+		{
+			"employee_id": 2,
+			"type": 1,
+			"team_id": 1,
+			"dept_id": 1,
+			"name": "VA nt",
+			"email": "ntva@gmail.com"
+		},
+		{
+			"employee_id": 3,
+			"type": 1,
+			"team_id": 1,
+			"dept_id": 2,
+			"name": "Hoanv",
+			"email": "hoanv@gmail.com"
+		}
+	],
+	"status": "200",
+	"message": "successfully"
+}

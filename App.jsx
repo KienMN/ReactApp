@@ -11,6 +11,7 @@ import Navbar from './Navbar.jsx';
 import LoginForm from './LoginForm.jsx'
 import Dashboard from './Dashboard.jsx'
 
+
 class App extends React.Component {
 	constructor(props) {
 		super(props);	
@@ -40,10 +41,7 @@ class App extends React.Component {
                	render={() => <LoginForm onHandle={this.getSessionKey}/>} />
 			{console.log(this.state.data)}	
 			<Route path="/dashboard"
-				render={() => <Dashboard data={this.state.data} />}/>
-		
-					
-						
+				render={() => <Dashboard data={this.state.data} />}/>						
     	</div>
 
 		);
