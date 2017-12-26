@@ -17,8 +17,7 @@ class SideMenu extends React.Component {
 		ReactDOM.render(<CreateRequestForm employee_id= {employee_id} sessionkey={sessionkey}/>, document.getElementById("dashboard"));
 	}
 	render() {
-		const type_id = this.props.data.employee_id; //employee_type
-		
+		const type_id = this.props.data.type; //employee_type
 		return (	
 			<div className="navbar-default sidebar" role="navigation">
 				<div className="sidebar-nav navbar-collapse">
@@ -30,11 +29,12 @@ class SideMenu extends React.Component {
                         </li>
 						<SideMenuItem data={this.props.data} user_id={this.props.user_id} type={0} name="Việc tôi yêu cầu" active="active"/>
 						<SideMenuItem data={this.props.data} user_id={this.props.user_id} type={1} name="Công việc liên quan"/>
+						<SideMenuItem data={this.props.data} user_id={this.props.user_id} type={2} name="Công việc tôi được giao"/>
 						{(type_id == 1) ? 
-						<SideMenuItem data={this.props.data} user_id={this.props.user_id} type={2} name="Công việc của team" />
+						<SideMenuItem data={this.props.data} user_id={this.props.user_id} type={3} name="Công việc của team" />
 						: <div></div>}
 						{(type_id == 2) ?
-						<SideMenuItem data={this.props.data} user_id={this.props.user_id} type={3} name="Công việc của bộ phận IT"/>
+						<SideMenuItem data={this.props.data} user_id={this.props.user_id} type={4} name="Công việc của bộ phận IT"/>
 						:<div></div>
 						}
             </ul>

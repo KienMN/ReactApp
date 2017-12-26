@@ -25,7 +25,8 @@ class SubItem extends React.Component {
     }
     //cannot found #dashboard
     handleClick() {
-        ReactDOM.render(<RequestTable index={this.props.index} status={this.props.status}/>, document.getElementById("dashboard"));
+        ReactDOM.render(<RequestTable index={this.props.index} status={this.props.status} data={this.props.data}/>, document.getElementById("dashboard"));
+        // alert(this.props.status);
     }
     render() {
         //status
@@ -55,10 +56,10 @@ class SubItem extends React.Component {
             
             <button style={{width:'100%', height:25, fontSize:15, textAlign:'left', paddingTop: 2}} onClick={this.handleClick} className="list-group-item">
                 <i className={icons[this.props.status].gly}></i> {"  " + this.props.name}
-                { (this.props.request_count > 0) ? 
+                {/* (this.props.request_count > 0) ? 
                  <span style={{float: 'right'}} className={icons[this.props.status].label}>{this.props.request_count}</span>
                  : <span></span>
-                }
+                }*/}
             </button>
             {/*</Link>*/}
             </div>

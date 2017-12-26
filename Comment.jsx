@@ -1,4 +1,5 @@
 import React from 'react';
+import Timestamp from 'react-timestamp';
 /**
  * Lam sao de tu employee_id -> name va
  * @va
@@ -25,7 +26,7 @@ class Comment extends React.Component {
                 <div className="col-sm-11">
                   <div className="panel panel-default">
                     <div className="panel-heading">
-                      <strong>{this.props.employee_name}</strong> <span className="text-muted">commented {duration} days ago</span>
+                      <strong>{this.props.employee_name}</strong> <span className="text-muted">commented at <Timestamp time={this.props.created_at} format='full' /></span>
                       {(this.props.type > 3) ? 
                       <span style={{float: 'right'}} className={types[this.props.type].label}>{types[this.props.type].name}</span>
                       : <span style={{float: 'right'}} className={types[0].label}>{types[0].name}</span>

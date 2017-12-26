@@ -1,6 +1,6 @@
 import React from 'react';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
-//import moment from 'moment';
+import moment from 'moment';
 import './css/createRequestForm.css';
 import Editor  from './Editor.jsx';
 import { Link } from 'react-router-dom';
@@ -19,7 +19,7 @@ import { Link } from 'react-router-dom';
         this.state = {
             employee_id: 0, 
             team_id: 0, subject: '',
-            content: '', priority: 0,
+            content: '', priority: 1,
             deadline: undefined, //in mills 
             relaters: '', image: '',
             dept_id: 0,
@@ -33,7 +33,7 @@ import { Link } from 'react-router-dom';
     }
 
     submit() {
-        fetch('http://localhost:3001/api/v1/requests/'+ this.props.employee_id, {
+        fetch('http://192.168.43.166:3001/api/v1/requests/'+ this.props.employee_id, {
             method: 'POST',
             headers: {
               "Access-Control-Allow-Origin" : "*",
@@ -64,9 +64,10 @@ import { Link } from 'react-router-dom';
 
     handleDayChange(date) {
         this.setState({
-       //   deadline: moment(date).format('x'), 
-          deadline_set: true
+            deadline: moment(date).format('x') / 1000,
+            deadline_set: true
         });
+        console.log(moment(date).format('x') / 1000);
       }
     handleEditorChange(text) {
         this.setState({

@@ -40,14 +40,12 @@ class LoginForm extends React.Component {
       } else {
         console.log('form is valid: submit');
         this.submitData();
-     
-        // if (this.state.valid)  this.context.router.push("/dashboard") 
-       // else this.props.history.push("/login") 
+
       }
     }
     
     submitData() {
-      fetch('http://localhost:3001/api/v1/login', {
+      fetch('http://192.168.43.166:3001/api/v1/login', {
         method: 'POST',
         headers: {
           "Access-Control-Allow-Origin" : "*"

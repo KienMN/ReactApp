@@ -8,6 +8,7 @@ import { Switch, Route } from 'react-router-dom'
 
 class DashBoard extends React.Component {
     render() {
+        // alert(this.props.data.employee_id);
         return(
          <div>
             <Navbar data={this.props.data} />
@@ -19,8 +20,8 @@ class DashBoard extends React.Component {
                     path="/dashboard"
                     render={() => <RequestTable data={this.props.data} index={0} status={0}/>} />
                 */}
-                {/*<RequestTable data={this.props.data} index={0} status={0}/>*/}
-                <Route path="/" component={ContentLayout}/>
+                <RequestTable data={this.props.data} index={0} status={0}/>
+                
             </div>
          </div>
         );

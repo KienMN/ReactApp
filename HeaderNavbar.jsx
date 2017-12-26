@@ -4,14 +4,14 @@ class HeaderNavbar extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			username: "Kien Mai Ngoc"
+			username: this.props.username
 		}
 	}
 	render() {
 		return (
 			<div>
 				<div className="navbar-header">
-					<a href="#" className="navbar-brand">IT Supporter</a>
+					<a href="#" className="navbar-brand">Callog IT</a>
 				</div>
 
 				<button type="button" className="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -35,7 +35,7 @@ class HeaderNavbar extends React.Component {
 							</li>
 							<li className="divider"></li>
 							<li>
-								<a href="login.html"><i className="fa fa-sign-out fa-fw"></i> Logout</a>
+								<a href="/"><i className="fa fa-sign-out fa-fw"></i> Logout</a>
 							</li>
 						</ul>
 					</li>

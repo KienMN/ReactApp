@@ -34,7 +34,8 @@ class RequestTable extends React.Component {
         	}],
         	// employee_id
 			empNameAndId: [{"name": "default", "id": 1}],
-			status: this.props.status
+			status: this.props.status,
+			
 		}
 	}
 
@@ -52,13 +53,36 @@ class RequestTable extends React.Component {
     	document.body.appendChild(s);
 	}
 
+	componentWillReceiveProps(nextProps) {
+		let typeOfRequets = ["my", "related", "offered", "team", "dept"]
+		let employeesNameAndId = [];
+		let index = nextProps.index;
+		fetch('http://192.168.43.166:3001/api/v1/requests/' + this.props.data.employee_id + '/' + typeOfRequets[index], {
+			method: "GET",
+			headers: {
+				'Content-Type': 'application/json',
+				"sessionkey": this.props.data.sessionkey
+			}
+		})
+		.then((res) => res.json())
+		.then((result) => {
+			let a = [];
+			result.data.map((dat, i) => {a.push(dat)});
+			this.setState({
+				tableData: a,
+			})
+		})
+	}
+
 	componentDidMount() {
+		// alert(this.props.data.sessionkey)
+		let typeOfRequets = ["my", "related", "offered", "team", "dept"]
 		let employeesNameAndId = [];
 		fetch('http://192.168.43.166:3001/api/v1/employees', {
 			method: "GET",
 			headers: {
 				'Content-Type': 'application/json',
-				"sessionkey": "f18caa8deb3a9c833dd0bafe6e5b7b6680a8848ce28da2c298aae560401b9952318867ce6c31c9c7948b2271f0e6741a253f97bf89266a95398ce77d0cd26a25"
+				"sessionkey": this.props.data.sessionkey
 			}
 		})
 		// fetch('/SampleJsonData/employees.json')
@@ -69,11 +93,11 @@ class RequestTable extends React.Component {
 				empNameAndId: employeesNameAndId
 			})
 		})
-		fetch('http://192.168.43.166:3001/api/v1/requests/3/offered', {
+		fetch('http://192.168.43.166:3001/api/v1/requests/' + this.props.data.employee_id + '/' + typeOfRequets[this.props.index], {
 			method: "GET",
 			headers: {
 				'Content-Type': 'application/json',
-				"sessionkey": "f18caa8deb3a9c833dd0bafe6e5b7b6680a8848ce28da2c298aae560401b9952318867ce6c31c9c7948b2271f0e6741a253f97bf89266a95398ce77d0cd26a25"
+				"sessionkey": this.props.data.sessionkey
 			}
 		})
 		.then((res) => res.json())
@@ -112,12 +136,11 @@ class RequestTable extends React.Component {
 		  })
 	}*/
 	render() {
+		// alert(this.props.status);
 		const titles = ["Việc tôi yêu cầu", "Công việc liên quan", "Công việc được giao", "Công việc của team", 
 			"Công việc của bộ phận IT"];
 		const tableData =[];
 		// = this.props.data;
-		console.log(this.props.data);
-		console.log(this.state);
 		return (
 			<div id="page-wrapper">
 				<div className="row">
@@ -133,7 +156,7 @@ class RequestTable extends React.Component {
 									<table className="table table-striped table-bordered table-hover" id="requestTable">
 										<thead>
 											<tr>
-												<th>STT</th>
+												
 												{this.state.tableHeads.map((tableHead, index) => <th key={index}>{tableHead}</th>)}
 											</tr>
 										</thead>
@@ -141,7 +164,7 @@ class RequestTable extends React.Component {
 											{/*tableData.map((request, index) =>  
 											 (request[5] === this.props.status || this.props.status === 0) 
 											 ? <TableRow key = {index} data = {request} /> : <tr></tr>)}*/}
-											 {this.state.tableData.map((request, index) => <TableRow key={index} data={request} employees={this.state.empNameAndId} status={this.state.status} />)}
+											 {this.state.tableData.map((request, index) => <TableRow key={index} data={request} employees={this.state.empNameAndId} status={this.props.status} sessionkey={this.props.data.sessionkey} employeeId={this.props.data.employee_id} />)}
 										</tbody>
 									</table>
 								</div>
@@ -166,7 +189,7 @@ class TableRow extends React.Component {
 
 	select() {
 		this.setState({isRead: true});
-		ReactDOM.render(<ContentLayout requestId={this.props.data.id} employees={this.props.employees}/>, document.getElementById("dashboard"));
+		ReactDOM.render(<ContentLayout requestId={this.props.data.id} employees={this.props.employees} sessionkey={this.props.sessionkey} employeeId={this.props.employeeId}/>, document.getElementById("dashboard"));
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -183,18 +206,20 @@ class TableRow extends React.Component {
 		if (this.state.isRead) {
 			markRead = "";
 		}
+		console.log(this.props.data.status, this.props.status);
+		
 		if (this.props.data.status == this.props.status || this.props.status == 0) {
-		return (
-			<tr onClick={this.select} className={markRead}>
-				<td></td>
-				<td>{this.props.data.subject}</td>
-				<td>{priority[this.props.data.priority]}</td>
-				<td>{this.props.employees[this.props.data.created_by - 1].name}</td>
-				<td>{this.props.employees[this.props.data.assigned_to - 1].name}</td>
-				<td><Timestamp time={this.props.data.deadline} format='full' /></td>
-				<td>{status[this.props.data.status]}</td>
-			</tr>
-		);}
+			return (
+				<tr onClick={this.select} className={markRead}>
+					
+					<td>{this.props.data.subject}</td>
+					<td>{priority[this.props.data.priority]}</td>
+					<td>{this.props.employees[this.props.data.created_by - 1].name}</td>
+					<td>{this.props.employees[this.props.data.assigned_to - 1].name}</td>
+					<td><Timestamp time={this.props.data.deadline} format='full' /></td>
+					<td>{status[this.props.data.status]}</td>
+				</tr>
+			);}
 		else {
 			return null;
 		}

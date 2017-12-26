@@ -24,20 +24,20 @@ class SideMenuItem extends React.Component {
 		return(
 			<li className={this.props.active}><a href="#"><i className="fa fa-dashboard fa-fw"></i>  {this.props.name}<span className="fa arrow"></span></a>
 				<ul className="nav nav-second-level">
-					<SubItem user_id={this.props.user_id} index={type} status={0} name="All" request_count={this.state.all} handleClick={this.onClick}/>
-					<SubItem user_id={this.props.user_id} index={type} status={1} name="New" request_count={this.state.new} handleClick={this.onClick}/>
-					<SubItem user_id={this.props.user_id} index={type} status={2} name="Inprocess" request_count={this.state.inprogress} handleClick={this.onClick}/>
+					<SubItem data={this.props.data} user_id={this.props.data.employee_id} sessionkey={this.props.data.sessionkey} index={this.props.type} status={0} name="All" request_count={this.state.all} handleClick={this.onClick}/>
+					<SubItem data={this.props.data} user_id={this.props.data.employee_id} sessionkey={this.props.data.sessionkey} index={this.props.type} status={1} name="New" request_count={this.state.new} handleClick={this.onClick}/>
+					<SubItem data={this.props.data} user_id={this.props.data.employee_id} sessionkey={this.props.data.sessionkey} index={this.props.type} status={2} name="Inprocess" request_count={this.state.inprogress} handleClick={this.onClick}/>
 					{(this.props.type > 1) ?  
-					<SubItem user_id={this.props.user_id} index={type} status={4} name="Feedback" request_count={this.state.feedback} handleClick={this.onClick}/>
-					:<SubItem user_id={this.props.user_id} index={type} status={3} name="Resolved" request_count={this.state.resolved} handleClick={this.onClick}/>}
-					<SubItem user_id={this.props.user_id} index={type} status={6} name="Out Of Date" request_count={this.state.outdate} handleClick={this.onClick}/>
+					<SubItem data={this.props.data} user_id={this.props.data.employee_id} sessionkey={this.props.data.sessionkey} index={this.props.type} status={4} name="Feedback" request_count={this.state.feedback} handleClick={this.onClick}/>
+					:<SubItem data={this.props.data} user_id={this.props.data.employee_id} sessionkey={this.props.data.sessionkey} index={this.props.type} status={3} name="Resolved" request_count={this.state.resolved} handleClick={this.onClick}/>}
+					<SubItem data={this.props.data} user_id={this.props.data.employee_id} sessionkey={this.props.data.sessionkey} index={this.props.type} status={6} name="Out Of Date" request_count={this.state.outdate} handleClick={this.onClick}/>
 					{(this.props.type > 1) ?  
-					<SubItem user_id={this.props.user_id} index={type} status={5} name="Closed" request_count={this.state.closed} handleClick={this.onClick}/>
+					<SubItem data={this.props.data} user_id={this.props.data.employee_id} sessionkey={this.props.data.sessionkey} index={this.props.type} status={5} name="Closed" request_count={this.state.closed} handleClick={this.onClick}/>
 					:<span></span>
 					}
 				</ul>
 			</li>				
-					
+
 		);
 	}
 }
