@@ -41,9 +41,7 @@ class SubItem extends React.Component {
         ];
         //index: 
         //0-Viec toi yeu cau, 1 - Cong viec lien quan, 2-Cong viec duoc giao 3- Công việc của team  4-Công việc của bộ phận IT
-        const request_link = ["my", "related", "offered", "team", "dept"];
-       
-        
+        const request_link = ["my", "related", "offered", "team", "dept"]; 
         return(
             <div>
             {/*width phai bang voi width o subSideMenu
@@ -55,7 +53,7 @@ class SubItem extends React.Component {
             <Link to={"/dashboard/"+ request_link[this.props.index]}>
             */}
             
-            <button style={{width:'100%', textAlign:'left'}} onClick={this.handleClick} className="list-group-item">
+            <button style={{width:'100%', height:25, fontSize:15, textAlign:'left', paddingTop: 2}} onClick={this.handleClick} className="list-group-item">
                 <i className={icons[this.props.status].gly}></i> {"  " + this.props.name}
                 { (this.props.request_count > 0) ? 
                  <span style={{float: 'right'}} className={icons[this.props.status].label}>{this.props.request_count}</span>

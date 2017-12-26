@@ -3,6 +3,7 @@ import './css/loginForm.css'
 import ReactDOM from 'react-dom'
 import {Link, Redirect} from 'react-router-dom';
 import Dashboard from './Dashboard.jsx'
+
 class LoginForm extends React.Component {
     
     constructor(props) {
