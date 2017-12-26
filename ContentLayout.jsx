@@ -6,9 +6,11 @@ import ContentBoard from './ContentBoard.jsx';
 class ContentLayout extends React.Component {
 
     render() {
+        
         return(
+
             <div id="page-wrapper">
-                <RequestDescription />
+                <RequestDescription requestId={this.props.requestId} employees={this.props.employees}/>
                 <ContentBoard />
             </div>
         );

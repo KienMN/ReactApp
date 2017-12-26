@@ -31,7 +31,7 @@ class RequestDescription extends React.Component {
 				"relaters": [1]
 			},
 			availableStatus: [0, 0, 0, 0, 0, 1],
-			empNameAndId: [{"name": "default", "id": 0}]
+			empNameAndId: this.props.employees
 		}
 		// Handle change dept
 		this.handleDeptChange = this.handleDeptChange.bind(this);
@@ -61,21 +61,32 @@ class RequestDescription extends React.Component {
 	componentDidMount() {
 		let resultData;
 		let resultTmpData;
-		fetch('/SampleJsonData/requestInfo.json').then((res) => res.json())
+		fetch('http://192.168.43.166:3001/api/v1/requests/3/info/' + this.props.requestId,{
+			method: "GET",
+			headers: {
+				'Content-Type': 'application/json',
+				"sessionkey": "f18caa8deb3a9c833dd0bafe6e5b7b6680a8848ce28da2c298aae560401b9952318867ce6c31c9c7948b2271f0e6741a253f97bf89266a95398ce77d0cd26a25"
+			}
+		})
+		.then((res) => res.json())
 		.then((result) => {
 			resultData = result.data;
 			resultTmpData = JSON.parse(JSON.stringify(result.data));
-		})
-		let dataRelaters = []
-		fetch('/SampleJsonData/employees.json').then((res) => res.json())
-		.then((result) => {
-			result.data.map((p, i) => employeesNameAndId.push({"name": p.name, "id": p.employee_id}));
 			this.setState({
 				data: resultData,
-				tmpData: resultTmpData,
-				empNameAndId: employeesNameAndId
+				tmpData: resultTmpData
 			})
 		})
+		let dataRelaters = []
+		// fetch('/SampleJsonData/employees.json').then((res) => res.json())
+		// .then((result) => {
+		// 	result.data.map((p, i) => employeesNameAndId.push({"name": p.name, "id": p.employee_id}));
+		// 	this.setState({
+		// 		data: resultData,
+		// 		tmpData: resultTmpData,
+		// 		empNameAndId: employeesNameAndId
+		// 	})
+		// })
 	}
 
 	// Handle change dept
@@ -209,7 +220,7 @@ class RequestDescription extends React.Component {
 	}
 
 	render() {
-		const deptNames = ["", "Hà Nội - IT", "Đà Nẵng - IT"];
+		const deptNames = ["Hà Nội - IT", "Đà Nẵng - IT"];
 		const priority = ["", "Thấp", "Bình thường", "Cao", "Khẩn cấp"];
 		const status = ["", "New", "In progress", "Resolved", "Feedback", "Closed", "Cancelled"];
 		

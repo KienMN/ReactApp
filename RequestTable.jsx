@@ -10,12 +10,6 @@ class RequestTable extends React.Component {
 		//props: data cua employee_id
 		this.state = {
 			tableHeads: ["Tên công việc", "Mức độ ưu tiên", "Người yêu cầu", "Người thực hiện", "Ngày hết hạn", "Trạng thái"],
-		//	tableData: [
-		//		["Sửa bàn phím", "Cao", "Phạm Tuấn Anh", "PTA", "2017-12-18 20:00:00", 1],
-		//		["Active window", "Bình thường", "Phạm Tuấn Anh", "PTA", "2017-12-17 20:00:00", 2],
-		//		["Active window", "Thấp", "Phạm Tuấn Anh", "PTA", "2017-12-17 20:00:00", 3],
-		//		["Active window", "Khẩn cấp", "Phạm Tuấn Anh", "PTA", "2017-12-17 20:00:00", 4]
-		//	]
 			tableData: [{
 	            "id": 0,
 	            "created_by": 1,
@@ -38,7 +32,8 @@ class RequestTable extends React.Component {
 	            "closed_at": 0,
 	            "images": []
         	}],
-			empNameAndId: [{"name": "default", "id": 0}],
+        	// employee_id
+			empNameAndId: [{"name": "default", "id": 1}],
 			status: this.props.status
 		}
 	}
@@ -59,17 +54,34 @@ class RequestTable extends React.Component {
 
 	componentDidMount() {
 		let employeesNameAndId = [];
-		fetch('/SampleJsonData/employees.json').then((res) => res.json())
+		fetch('http://192.168.43.166:3001/api/v1/employees', {
+			method: "GET",
+			headers: {
+				'Content-Type': 'application/json',
+				"sessionkey": "f18caa8deb3a9c833dd0bafe6e5b7b6680a8848ce28da2c298aae560401b9952318867ce6c31c9c7948b2271f0e6741a253f97bf89266a95398ce77d0cd26a25"
+			}
+		})
+		// fetch('/SampleJsonData/employees.json')
+		.then((res) => res.json())
 		.then((result) => {
 			result.data.map((p, i) => employeesNameAndId.push({"name": p.name, "id": p.employee_id}));
+			this.setState({
+				empNameAndId: employeesNameAndId
+			})
 		})
-		fetch('/SampleJsonData/requests.json').then((res) => res.json())
+		fetch('http://192.168.43.166:3001/api/v1/requests/3/offered', {
+			method: "GET",
+			headers: {
+				'Content-Type': 'application/json',
+				"sessionkey": "f18caa8deb3a9c833dd0bafe6e5b7b6680a8848ce28da2c298aae560401b9952318867ce6c31c9c7948b2271f0e6741a253f97bf89266a95398ce77d0cd26a25"
+			}
+		})
+		.then((res) => res.json())
 		.then((result) => {
 			let a = [];
 			result.data.map((dat, i) => {a.push(dat)});
 			this.setState({
 				tableData: a,
-				empNameAndId: employeesNameAndId
 			})
 		})
 		
@@ -154,7 +166,7 @@ class TableRow extends React.Component {
 
 	select() {
 		this.setState({isRead: true});
-		ReactDOM.render(<ContentLayout />, document.getElementById("dashboard"));
+		ReactDOM.render(<ContentLayout requestId={this.props.data.id} employees={this.props.employees}/>, document.getElementById("dashboard"));
 	}
 
 	componentWillReceiveProps(nextProps) {
