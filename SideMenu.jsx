@@ -5,19 +5,21 @@ import {Link} from 'react-router-dom';
 import CreateRequestForm from './CreateRequestForm.jsx';
 
 class SideMenu extends React.Component {
-	
+	//props: data
 	constructor(props) {
 		super(props);
-	this.handleClick = this.handleClick.bind(this);
+		this.handleClick = this.handleClick.bind(this);
 	}
 
 	handleClick() {
-		ReactDOM.render(<CreateRequestForm />, document.getElementById("dashboard"));
+		const employee_id = this.props.data.employee_id;
+		const sessionkey = this.props.data.sessionkey;
+		ReactDOM.render(<CreateRequestForm employee_id= {employee_id} sessionkey={sessionkey}/>, document.getElementById("dashboard"));
 	}
 	render() {
-		const type_id = 2; //employee_type
-		return (
-	
+		const type_id = this.props.data.employee_id; //employee_type
+		
+		return (	
 			<div className="navbar-default sidebar" role="navigation">
 				<div className="sidebar-nav navbar-collapse">
 					<ul className="nav" id="side-menu">
@@ -26,13 +28,13 @@ class SideMenu extends React.Component {
                                 <i className="fa fa-plus"></i> Thêm yêu cầu
                             </button>
                         </li>
-						<SideMenuItem user_id={this.props.user_id} type={0} name="Việc tôi yêu cầu" active="active"/>
-						<SideMenuItem user_id={this.props.user_id} type={1} name="Công việc liên quan"/>
+						<SideMenuItem data={this.props.data} user_id={this.props.user_id} type={0} name="Việc tôi yêu cầu" active="active"/>
+						<SideMenuItem data={this.props.data} user_id={this.props.user_id} type={1} name="Công việc liên quan"/>
 						{(type_id == 1) ? 
-						<SideMenuItem user_id={this.props.user_id} type={2} name="Công việc của team" />
+						<SideMenuItem data={this.props.data} user_id={this.props.user_id} type={2} name="Công việc của team" />
 						: <div></div>}
 						{(type_id == 2) ?
-						<SideMenuItem user_id={this.props.user_id} type={3} name="Công việc của bộ phận IT"/>
+						<SideMenuItem data={this.props.data} user_id={this.props.user_id} type={3} name="Công việc của bộ phận IT"/>
 						:<div></div>
 						}
             </ul>

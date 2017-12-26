@@ -1,0 +1,11 @@
+{
+    "data": {
+        "user_id": "2",
+        "username": "vananhnt",
+        "sessionkey": "4a361fafc86892d26c2861f664450a0b91bebf79d0bcd923696b721de62ace28c1d8d6ed2b7e41c549e6c5d4e7924bf4b9a3e50a575a1f56f9e9b4dc71abbe21",
+        "employee_id": 2,
+        "last_time_login": 1514232727
+    },
+    "message": "Login successfully",
+    "status": 200
+}

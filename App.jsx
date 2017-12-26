@@ -30,19 +30,21 @@ class App extends React.Component {
 		
 		return(
 			<div className="App">
-			{/*
+		
 				{
 					(this.state.data) ? 
 					<Dashboard data={this.state.data} />
 					: <LoginForm onHandle={this.getSessionKey}/>
 				}
-			*/}		
+				
+			{/*	
 			<Route path="/login"
                	render={() => <LoginForm onHandle={this.getSessionKey}/>} />
 			{console.log(this.state.data)}	
 			<Route path="/dashboard"
 				render={() => <Dashboard data={this.state.data} />}/>						
-    	</div>
+			*/}
+				</div>
 
 		);
 	}

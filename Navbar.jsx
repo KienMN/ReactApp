@@ -11,7 +11,7 @@ class Navbar extends React.Component {
 		return (
 			<div className="navbar navbar-inverse navbar-fixed-top" role="navigation">
 				<HeaderNavbar />
-				<SideMenu />
+				<SideMenu data={this.props.data}/>
 			</div>
 		);
 	}

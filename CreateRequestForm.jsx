@@ -13,25 +13,55 @@ import { Link } from 'react-router-dom';
  */
 
  class CreateRequestForm extends React.Component {
-    //props: user_id
+    //props: user_id, sessionkey
     constructor(props) {
         super(props);
         this.state = {
-            employee_id: '', assigned_to: '',
-            team_id: '', subject: '',
-            content: '', priority: '',
+            employee_id: 0, 
+            team_id: 0, subject: '',
+            content: '', priority: 0,
             deadline: undefined, //in mills 
             relaters: '', image: '',
-
+            dept_id: 0,
             content_set: false, content_st:'', sub_st:'', 
             deadline_set: false, deadline_st: ''
         }
-      
+        this.submit = this.submit.bind(this);
         this.handleDayChange = this.handleDayChange.bind(this);
         this.validate = this.validate.bind(this);
         this.handleEditorChange = this.handleEditorChange.bind(this);
     }
-   
+
+    submit() {
+        fetch('http://localhost:3001/api/v1/requests/'+ this.props.employee_id, {
+            method: 'POST',
+            headers: {
+              "Access-Control-Allow-Origin" : "*",
+              "sessionkey": this.props.sessionkey
+            }, 
+            body:JSON.stringify({
+                team_id: 0,//this.state.team_id,
+                dept_id: parseInt(this.state.dept_id, 10),
+                subject: this.state.subject,
+                content: this.state.content,
+                priority: parseInt(this.state.priority, 10),
+                deadline: this.state.deadline
+               // relaters: this.
+
+            })
+          })
+          .then(results => {
+            return results.json();
+          }).then(data => {
+            if (data.status === 200) {
+                console.log(data.data)
+                alert("Tạo yêu cầu thành công")
+            } else {
+                alert("Tạo yêu cầu thất bại")
+            }
+          })
+    }
+
     handleDayChange(date) {
         this.setState({
        //   deadline: moment(date).format('x'), 
@@ -50,10 +80,12 @@ import { Link } from 'react-router-dom';
         !(this.state.content_set) ? this.setState({content_st: "has-error"}) : this.setState({content_st: ""})   
       
     }
+
     cancel() {
         document.body.scrollTop = document.documentElement.scrollTop = 0;
     }
     render() {
+      
         const dept_info = [
             {    dept_id: "0",
                 dept_name: "Hà Nội - IT",
@@ -65,10 +97,10 @@ import { Link } from 'react-router-dom';
         ];
 
         const priority_arr = [
-            {id: 1, name: "Thấp"},
-            {id: 2, name: "Bình thường"},
-            {id: 3, name: "Cao"},
-            {id: 4, name: "Khẩn cấp"}
+            {id: "1", name: "Thấp"},
+            {id: "2", name: "Bình thường"},
+            {id: "3", name: "Cao"},
+            {id: "4", name: "Khẩn cấp"}
         ];
         return(
             
@@ -95,7 +127,8 @@ import { Link } from 'react-router-dom';
                                 <label>Mức độ ưu tiên</label>
                                 <select className="form-control" onChange={(e) => this.setState({
                                         priority: e.target.value
-                                    })}>
+                                
+                                    })}> {console.log(typeof(this.state.priority))}
                                         {priority_arr.map((prior, index) => (
                                             <option key={index} value={prior.id}>{prior.name}</option>
                                         ))}
@@ -144,7 +177,7 @@ import { Link } from 'react-router-dom';
                          </div>
                     </div>
                     
-                    <button type="submit" className="btn btn-primary pull-right" onClick={this.validate}>Submit</button>
+                    <button type="submit" className="btn btn-primary pull-right" onClick={this.submit}>Submit</button>
                 
                    
                     <button type="cancel" className="btn btn-default pull-right" onClick={this.cancel}>Cancel</button>

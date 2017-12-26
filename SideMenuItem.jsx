@@ -19,7 +19,7 @@ class SideMenuItem extends React.Component {
 		alert(1)
 	}
 	render() {
-
+		
 		const type = this.props.type;
 		return(
 			<li className={this.props.active}><a href="#"><i className="fa fa-dashboard fa-fw"></i>  {this.props.name}<span className="fa arrow"></span></a>
@@ -45,11 +45,11 @@ SideMenuItem.defaultProps = {
 	user_id: 0,
 	type: 0, //0-Viec toi yeu cau, 1 - Cong viec lien quan, 2-Cong viec duoc giao 3- Công việc của team  4-Công việc của bộ phận IT
 	name: 'Side menu',
-	all: 18,
-	new: 12,
-	inprogress: 5,
+	all: 4,
+	new: 1,
+	inprogress: 2,
 	resolved: 0,
 	outdate: 1, 
-	closed: 5
+	closed: 0
   };
 export default SideMenuItem;
